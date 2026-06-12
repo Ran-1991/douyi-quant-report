@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>豆一量化模型 v6.1 — AM</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;background:#0f1923;color:#e0e0e0;padding:16px 0;font-size:14px}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+.header{text-align:center;padding:24px 0 16px;border-bottom:2px solid #1e3a5f;margin-bottom:16px}
+.header h1{font-size:24px;color:#60a5fa}
+.header .sub{color:#64748b;font-size:12px;margin-top:6px}
+.card{background:#132232;border:1px solid #1e3a5f;border-radius:12px;padding:18px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:bold;color:#60a5fa;margin-bottom:12px;border-left:3px solid #3b82f6;padding-left:10px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.price-big{font-size:32px;font-weight:bold;color:#ef4444}
+.change{font-size:16px;margin-left:8px;color:#ef4444}
+.info-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1a2d44}
+.info-label{color:#94a3b8;font-size:12px}
+.info-value{font-size:13px;font-weight:bold}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;margin:2px}
+.tg{background:#064e3b40;color:#34d399;border:1px solid #065f4680}
+.tr{background:#7f1d1d40;color:#f87171;border:1px solid #991b1b80}
+.ty{background:#78350f40;color:#fbbf24;border:1px solid #92400e80}
+.tb{background:#1e3a5f40;color:#60a5fa;border:1px solid #1e40af80}
+.factor-bar{display:flex;align-items:center;margin:8px 0}
+.factor-label{width:105px;font-size:11px;color:#94a3b8}
+.factor-track{flex:1;height:18px;background:#1e293b;border-radius:5px;overflow:hidden;position:relative}
+.factor-fill{height:100%;border-radius:5px;transition:width 0.5s}
+.factor-val{width:40px;text-align:right;font-size:11px;margin-left:8px;font-weight:bold}
+.flowchart-container{text-align:center;padding:10px 0;overflow-x:auto}
+.flowchart-container svg{max-width:100%;height:auto;min-width:700px}
+.ref-badge{display:inline-block;padding:2px 7px;background:#1e3a5f30;border:1px solid #1e3a5f;border-radius:10px;font-size:9px;color:#64748b;margin:2px}
+.weight-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:bold}
+.diag-row{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;margin:2px 0;background:#0f1923;border-radius:5px;font-size:10px}
+.diag-factor{color:#94a3b8;min-width:90px;font-weight:bold}
+.diag-score{min-width:30px;text-align:center;font-weight:bold}
+.diag-detail{flex:1;margin-left:8px;font-size:9px}
+.policy-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:10px;margin:6px 0}
+.policy-title{font-size:12px;color:#60a5fa;font-weight:bold;margin-bottom:4px}
+.policy-text{font-size:11px;color:#94a3b8;line-height:1.5}
+.basis-display{display:inline-flex;align-items:center;padding:6px 14px;background:#f8717115;border:1px solid #f8717140;border-radius:8px;margin:8px 0}
+.seasonal-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:10px;margin:6px 0}
+.seasonal-title{font-size:12px;font-weight:bold;margin-bottom:4px}
+.news-item{padding:8px 10px;border-bottom:1px solid #1a2d44;font-size:11px;line-height:1.5}
+.news-item:last-child{border-bottom:none}
+.view-item{padding:8px 10px;border-bottom:1px solid #1a2d44;font-size:11px;line-height:1.5}
+.view-item:last-child{border-bottom:none}
+.impact-tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:10px;font-weight:bold;margin-left:4px}
+.source-cite{font-size:9px;color:#475569;margin-top:4px;font-style:italic}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+@media(max-width:768px){
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .price-big{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ====== 头部 ====== -->
+<div class="header">
+  <h1>🌱 豆一量化研究模型 v6.1</h1>
+  <div class="sub">AM · 2026-06-12 09:38:38 · 可分享部署版
+    <span class="ref-badge">方正中期</span><span class="ref-badge">华泰期货</span><span class="ref-badge">国泰君安</span>
+  </div>
+</div>
+
+<!-- ====== ① 行情数据面板 (v6.1: 始终显示完整数据) ====== -->
+<div class="card">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
+    <div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:4px">📊 最新行情数据 (盘中实时)</div>
+      <span class="price-big">4758</span>
+      <span class="change">↑0.40%</span>
+      <span style="font-size:12px;color:#64748b;margin-left:12px">(较昨收++0.40%)</span>
+    </div>
+    <div style="text-align:right;font-size:12px;color:#94a3b8">
+      <div><b style="color:#e0e0e0">今收: 4758</b> | 昨收: 4739</div>
+      <div>开盘: 4739 | 最高: 4769 | 最低: 4724</div>
+      <div>成交量: 198,052 | 持仓量: 0</div>
+    </div>
+  </div>
+  <div style="margin-top:8px;font-size:10px;color:#475569;border-top:1px solid #1e3a5f;padding-top:6px">
+    <span style="margin-right:16px">MA5: 4726</span>
+    <span style="margin-right:16px">MA20: 4758</span>
+    <span style="margin-right:16px">RSI(14): 47.6</span>
+    <span style="margin-right:16px">MACD: DIF=-20.3 DEA=-17.7</span>
+    <span>布林: 4855/4758/4661</span>
+  </div>
+</div>
+
+<!-- ====== ② 综合基本面仪表盘 + 基差显示 ====== -->
+<div class="card">
+  <div class="card-title">🌾 综合基本面仪表盘
+    <span class="ref-badge">生意社</span><span class="ref-badge">饲料信息网</span><span class="ref-badge">农业农村部</span>
+  </div>
+
+  <!-- 基差区域 (v6.1 新增) -->
+  <div style="text-align:center;margin-bottom:12px">
+    <div class="basis-display">
+      <span style="font-size:12px;color:#94a3b8">📐 基差</span>
+      <span style="font-size:20px;font-weight:bold;color:#f87171;margin:0 10px">-149 元/吨</span>
+      <span class="tag tr">贴水</span>
+    </div>
+    <div style="font-size:10px;color:#475569;margin-top:4px">
+      基差 = 现货均价(4609元) - 期货价格(4758元)
+      → 期货高估，现货贴水
+    </div>
+  </div>
+
+  <!-- 现货+进口+国际 -->
+  <div style="font-size:13px;color:#fbbf24;font-weight:bold;margin-bottom:8px">▎现货与进口</div>
+  <div class="grid3">
+    <div style="text-align:center;padding:10px;background:#0a1628;border-radius:8px">
+      <div style="font-size:22px;color:#fbbf24">4609</div>
+      <div style="font-size:10px;color:#64748b">国产大豆现货均价(元/t)</div>
+      <div style="font-size:9px;color:#34d399">进口到厂: 3830 | 溢价: 779元</div>
+    </div>
+    <div style="text-align:center;padding:10px;background:#0a1628;border-radius:8px">
+      <div style="font-size:22px;color:#60a5fa">885.01</div>
+      <div style="font-size:10px;color:#64748b">港口大豆库存(万吨)</div>
+      <div style="font-size:9px;color:#fbbf24">库存885.01万吨偏宽松</div>
+    </div>
+    <div style="text-align:center;padding:10px;background:#0a1628;border-radius:8px">
+      <div style="font-size:22px;color:#f59e0b">1150</div>
+      <div style="font-size:10px;color:#64748b">6月预估到港(万吨)</div>
+      <div style="font-size:9px">7月: 1000万吨 | 压榨: 72%-77%</div>
+    </div>
+  </div>
+
+  <div class="grid4" style="margin-top:10px">
+    <div style="text-align:center;padding:8px;background:#0a1628;border-radius:6px">
+      <div style="font-size:15px">1125</div><div style="font-size:9px;color:#64748b">CBOT(美分)</div></div>
+    <div style="text-align:center;padding:8px;background:#0a1628;border-radius:6px">
+      <div style="font-size:15px">442</div><div style="font-size:9px;color:#64748b">巴西FOB($/t)</div></div>
+    <div style="text-align:center;padding:8px;background:#0a1628;border-radius:6px">
+      <div style="font-size:15px;color:#f87171">-28.8%</div><div style="font-size:9px;color:#64748b">美豆出口同比</div></div>
+    <div style="text-align:center;padding:8px;background:#0a1628;border-radius:6px">
+      <div style="font-size:15px">33.4%</div><div style="font-size:9px;color:#64748b">全球库需比</div></div>
+  </div>
+
+  <!-- 中储粮子面板 (v6.1: 5行结构化表格，区分销售价/采购价) -->
+  <div style="margin-top:14px;padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #f59e0b">
+    <div style="font-size:13px;color:#fbbf24;font-weight:bold;margin-bottom:8px">🏛 中储粮国产大豆拍卖收购 · 近5次交易明细</div>
+    <div style="font-size:10px;color:#94a3b8;margin-bottom:8px">购销双向=卖出陈豆+买入新豆绑定交易；竞价销售=省储纯卖出陈豆。采购价=买入新豆价，销售底价=卖出陈豆底价。</div>
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:10px;color:#e0e0e0">
+      <thead>
+        <tr style="border-bottom:2px solid #1e3a5f">
+          <th style="padding:6px 4px;text-align:center;color:#94a3b8">日期</th>
+          <th style="padding:6px 4px;text-align:center;color:#94a3b8">类型</th>
+          <th style="padding:6px 4px;text-align:center;color:#94a3b8">数量(吨)</th>
+          <th style="padding:6px 4px;text-align:center;color:#94a3b8">成交率</th>
+          <th style="padding:6px 4px;text-align:center;color:#f87171">销售底价</th>
+          <th style="padding:6px 4px;text-align:center;color:#34d399">采购底价</th>
+          <th style="padding:6px 4px;text-align:center;color:#fbbf24">成交均价</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#0f1923;border-bottom:1px solid #1a2d44">
+  <td style="padding:6px 4px;text-align:center">2026-06-11</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">购销双向</td>
+  <td style="padding:6px 4px;text-align:center">51,644</td>
+  <td style="padding:6px 4px;text-align:center">✅ 100%</td>
+  <td style="padding:6px 4px;text-align:center;color:#f87171">4500/4700元</td>
+  <td style="padding:6px 4px;text-align:center;color:#34d399">4650/4920元</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">4551元</td>
+</tr><tr style="background:#0a1628;border-bottom:1px solid #1a2d44">
+  <td style="padding:6px 4px;text-align:center">2026-06-10</td>
+  <td style="padding:6px 4px;text-align:center;color:#60a5fa">竞价销售</td>
+  <td style="padding:6px 4px;text-align:center">23,475</td>
+  <td style="padding:6px 4px;text-align:center">✅ 81%</td>
+  <td style="padding:6px 4px;text-align:center;color:#f87171">4400元</td>
+  <td style="padding:6px 4px;text-align:center;color:#34d399">—</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">4524元</td>
+</tr><tr style="background:#0f1923;border-bottom:1px solid #1a2d44">
+  <td style="padding:6px 4px;text-align:center">2026-06-05</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">购销双向</td>
+  <td style="padding:6px 4px;text-align:center">11,850</td>
+  <td style="padding:6px 4px;text-align:center">✅ 100%</td>
+  <td style="padding:6px 4px;text-align:center;color:#f87171">4500元</td>
+  <td style="padding:6px 4px;text-align:center;color:#34d399">4650元</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">4543元</td>
+</tr><tr style="background:#0a1628;border-bottom:1px solid #1a2d44">
+  <td style="padding:6px 4px;text-align:center">2026-06-04</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">购销双向</td>
+  <td style="padding:6px 4px;text-align:center">25,103</td>
+  <td style="padding:6px 4px;text-align:center">✅ 46%</td>
+  <td style="padding:6px 4px;text-align:center;color:#f87171">4500/4700元</td>
+  <td style="padding:6px 4px;text-align:center;color:#34d399">4600/4920元</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">4844元</td>
+</tr><tr style="background:#0f1923;border-bottom:1px solid #1a2d44">
+  <td style="padding:6px 4px;text-align:center">2026-06-03</td>
+  <td style="padding:6px 4px;text-align:center;color:#60a5fa">竞价销售</td>
+  <td style="padding:6px 4px;text-align:center">18,592</td>
+  <td style="padding:6px 4px;text-align:center">✅ 100%</td>
+  <td style="padding:6px 4px;text-align:center;color:#f87171">4400元</td>
+  <td style="padding:6px 4px;text-align:center;color:#34d399">—</td>
+  <td style="padding:6px 4px;text-align:center;color:#fbbf24">4400元</td>
+</tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="tag ty">信号: 政策底强化</span>
+      <span style="font-size:10px;color:#64748b">实时</span>
+    </div>
+    <div style="font-size:10px;color:#64748b;margin-top:6px;line-height:1.4">最新: 2026-06-11 购销双向51,644吨成交率100%，销售底价4500/4700元/吨，采购底价4650/4920元/吨，成交均价4551元/吨。购销双向将卖出陈豆与买入新豆绑定，降低流拍风险，4650元/吨为采购价(买入新豆)，4500元/吨为销售价(卖出陈豆)。</div>
+  </div>
+</div>
+
+<!-- ====== 季节性分析 ====== -->
+<div class="card">
+  <div class="card-title">📅 季节性分析 · 产区天气与需求季节性
+    <span class="ref-badge">中国气象局</span><span class="ref-badge">季节性规律</span>
+  </div>
+
+  <!-- 产区天气 -->
+  <div style="padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #2dd4bf;margin-bottom:12px">
+    <div style="font-size:13px;color:#2dd4bf;font-weight:bold;margin-bottom:6px">🌤 产区天气 · 东北产区（黑龙江/内蒙古/吉林）</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <span style="font-size:14px;font-weight:bold;color:#fbbf24">天气偏冷</span>
+      <span class="impact-tag" style="background:#064e3b40;color:#34d399;border:1px solid #065f4680">偏多（潜在减产风险）</span>
+    </div>
+    <div style="font-size:11px;color:#94a3b8;line-height:1.6">东北产区积温偏低，大豆生长进度略慢于往年同期。6月上旬黑龙江北部地区遭遇低温天气，最低温度降至5℃以下，对大豆苗期生长有一定影响。需关注6-7月主产区降雨及气温变化，若持续低温可能影响单产。</div>
+    <div class="source-cite">来源: 中国气象局/中央气象台</div>
+  </div>
+
+  <!-- 需求季节性要素 -->
+  <div style="font-size:13px;color:#fbbf24;font-weight:bold;margin-bottom:8px">📊 未来一季度需求季节性要素</div>
+  <div class="grid3">
+    <div class="seasonal-card" style="border-left:3px solid #f87171">
+  <div class="seasonal-title" style="color:#f87171">6月 · 压榨淡季+饲料需求平稳</div>
+  <span class="impact-tag" style="background:#f8717120;color:#f87171;border:1px solid #f8717140">中性偏空</span>
+  <div style="font-size:10px;color:#94a3b8;line-height:1.5;margin-top:4px">6月生猪养殖处于正常水平，饲料需求平稳。压榨利润收窄，油厂开机率维持中等水平。豆粕库存处于累积期，对大豆压榨需求拉动有限。传统上6月为豆类消费淡季。</div>
+</div><div class="seasonal-card" style="border-left:3px solid #f87171">
+  <div class="seasonal-title" style="color:#f87171">7月 · 进口高峰+压榨回升</div>
+  <span class="impact-tag" style="background:#f8717120;color:#f87171;border:1px solid #f8717140">中性偏空</span>
+  <div style="font-size:10px;color:#94a3b8;line-height:1.5;margin-top:4px">7月为巴西大豆到港高峰期，月度到港量预计超1000万吨。港口库存季节性累积，供应端偏宽松。但7月下旬开始，中秋备货需求可能提前启动，压榨量有望回升。需关注美豆天气炒作对进口成本的传导。</div>
+</div><div class="seasonal-card" style="border-left:3px solid #34d399">
+  <div class="seasonal-title" style="color:#34d399">8月 · 中秋备货+新豆减量</div>
+  <span class="impact-tag" style="background:#34d39920;color:#34d399;border:1px solid #34d39940">偏多</span>
+  <div style="font-size:10px;color:#94a3b8;line-height:1.5;margin-top:4px">8月进入中秋、国庆双节备货期，食用油及豆制品需求季节性提升。国产大豆处于青黄不接阶段，新豆尚未上市，陈豆余粮见底，供应偏紧。进口豆到港量开始下降，港口库存逐渐去化。美豆天气炒作窗口期，CBOT波动加大。</div>
+</div>
+  </div>
+</div>
+
+<!-- ====== 技术面分析 ====== -->
+<div class="card">
+  <div class="card-title">📐 技术面分析 · 指标+持仓+图形
+    <span class="ref-badge">同花顺COT</span><span class="ref-badge">新浪期货</span>
+  </div>
+
+  <!-- 技术指标总览 -->
+  <div style="font-size:12px;color:#fbbf24;font-weight:bold;margin-bottom:6px">🎯 技术指标总览</div>
+  <div class="tech-grid">
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4726</div><div style="font-size:9px;color:#64748b">MA5</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4758</div><div style="font-size:9px;color:#64748b">MA20</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">47.6</div><div style="font-size:9px;color:#64748b">RSI(14)</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">12</div><div style="font-size:9px;color:#64748b">ADX</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4855</div><div style="font-size:9px;color:#64748b">布林上轨</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4758</div><div style="font-size:9px;color:#64748b">布林中轨</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4661</div><div style="font-size:9px;color:#64748b">布林下轨</div></div>
+    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">74.6</div><div style="font-size:9px;color:#64748b">ATR(14)</div></div>
+  </div>
+  <div style="font-size:10px;color:#64748b;margin-top:4px">
+    MACD: DIF=-20.3 | DEA=-17.7 | +DI=23 | -DI=18
+  </div>
+
+  <!-- 持仓结构分析 -->
+  <div style="margin-top:14px;padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #3b82f6">
+    <div style="font-size:12px;color:#60a5fa;font-weight:bold;margin-bottom:8px">📈 持仓结构分析 · 前20机构COT</div>
+    <div class="grid2">
+      <div>
+        <div class="info-row"><span class="info-label">数据日期</span><span class="info-value">2026-06-03</span></div>
+        <div class="info-row"><span class="info-label">多单(前20)</span><span class="info-value">35.14 万手</span></div>
+        <div class="info-row"><span class="info-label">空单(前20)</span><span class="info-value">40.5 万手</span></div>
+        <div class="info-row"><span class="info-label">多空比</span><span class="info-value" style="color:#f87171">0.87</span></div>
+        <div class="info-row"><span class="info-label">净持仓</span><span class="info-value" style="color:#f87171">-5.36 万手</span></div>
+        <div class="info-row"><span class="info-label">净持仓变化</span><span class="info-value">-0.98 万手</span></div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:4px">净多头TOP3:</div>
+        <div style="font-size:11px;margin:3px 0;color:#34d399">▸ 东证期货: +9,886手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 浙商期货: +8,237手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 国泰君安: +7,737手</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:6px;margin-bottom:4px">净空头TOP3:</div>
+        <div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中信期货: -9,843手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 首创期货: -9,082手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中泰期货: -8,907手</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#fbbf24;margin-top:4px">· 前20多空比0.87，机构偏空</div><div style="font-size:10px;color:#fbbf24;margin-top:4px">· 净空头增0.98万手，空头加仓</div>
+  </div>
+
+  <!-- K线与技术图形 -->
+  <div style="margin-top:14px">
+    <div style="font-size:12px;color:#fbbf24;font-weight:bold;margin-bottom:8px">📊 K线与技术图形</div>
+    <svg viewBox="0 0 800 345" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px">
+<rect width="800" height="345" fill="#0a1628" rx="8"/>
+<!-- 价格网格 -->
+<line x1="60" y1="0" x2="780" y2="0" stroke="#1e3a5f" stroke-width="0.5"/>
+<line x1="60" y1="120" x2="780" y2="120" stroke="#1e3a5f" stroke-width="0.5"/>
+<line x1="60" y1="240" x2="780" y2="240" stroke="#1e3a5f" stroke-width="0.5"/>
+<!-- 价格刻度 -->
+<text x="55" y="4" text-anchor="end" fill="#475569" font-size="8">5071</text>
+<text x="55" y="124" text-anchor="end" fill="#475569" font-size="8">4798</text>
+<text x="55" y="244" text-anchor="end" fill="#475569" font-size="8">4525</text>
+<!-- 分隔线 -->
+<line x1="60" y1="250" x2="780" y2="250" stroke="#1e3a5f" stroke-width="0.5"/>
+<line x1="66.0" y1="44.34017595307922" x2="66.0" y2="79.53079178885633" stroke="#22c55e" stroke-width="1"/><rect x="61.8" y="48.299120234604146" width="8.399999999999999" height="2.1994134897360667" fill="#22c55e" rx="1"/><line x1="78.0" y1="53.13782991202349" x2="78.0" y2="97.1260997067449" stroke="#22c55e" stroke-width="1"/><rect x="73.8" y="53.13782991202349" width="8.399999999999999" height="6.598240469208207" fill="#22c55e" rx="1"/><line x1="90.0" y1="46.09970674486807" x2="90.0" y2="101.96480938416424" stroke="#22c55e" stroke-width="1"/><rect x="85.8" y="59.7360703812317" width="8.399999999999999" height="34.75073313782991" fill="#22c55e" rx="1"/><line x1="102.0" y1="87.00879765395898" x2="102.0" y2="125.27859237536657" stroke="#22c55e" stroke-width="1"/><rect x="97.8" y="90.08797653958948" width="8.399999999999999" height="30.791788856304947" fill="#22c55e" rx="1"/><line x1="114.0" y1="113.841642228739" x2="114.0" y2="138.47507331378299" stroke="#ef4444" stroke-width="1"/><rect x="109.8" y="114.72140762463343" width="8.399999999999999" height="8.79765395894428" fill="#ef4444" rx="1"/><line x1="126.0" y1="111.20234604105573" x2="126.0" y2="149.91202346041052" stroke="#22c55e" stroke-width="1"/><rect x="121.8" y="111.20234604105573" width="8.399999999999999" height="21.114369501466257" fill="#22c55e" rx="1"/><line x1="138.0" y1="142.4340175953079" x2="138.0" y2="188.18181818181816" stroke="#22c55e" stroke-width="1"/><rect x="133.8" y="147.27272727272725" width="8.399999999999999" height="35.630498533724335" fill="#22c55e" rx="1"/><line x1="150.0" y1="185.10263929618762" x2="150.0" y2="208.8563049853372" stroke="#22c55e" stroke-width="1"/><rect x="145.8" y="185.10263929618762" width="8.399999999999999" height="18.035190615835802" fill="#22c55e" rx="1"/><line x1="162.0" y1="186.42228739002928" x2="162.0" y2="220.29325513196474" stroke="#ef4444" stroke-width="1"/><rect x="157.8" y="195.21994134897358" width="8.399999999999999" height="7.478005865102631" fill="#ef4444" rx="1"/><line x1="174.0" y1="199.17888563049848" x2="174.0" y2="229.090909090909" stroke="#22c55e" stroke-width="1"/><rect x="169.8" y="206.2170087976539" width="8.399999999999999" height="21.55425219941347" fill="#22c55e" rx="1"/><line x1="186.0" y1="215.01466275659817" x2="186.0" y2="229.090909090909" stroke="#ef4444" stroke-width="1"/><rect x="181.8" y="218.5337243401759" width="8.399999999999999" height="3.9589442815249356" fill="#ef4444" rx="1"/><line x1="198.0" y1="185.54252199413486" x2="198.0" y2="218.09384164222868" stroke="#ef4444" stroke-width="1"/><rect x="193.8" y="189.06158357771258" width="8.399999999999999" height="28.592375366568888" fill="#ef4444" rx="1"/><line x1="210.0" y1="178.50439882697944" x2="210.0" y2="207.53665689149554" stroke="#22c55e" stroke-width="1"/><rect x="205.8" y="196.099706744868" width="8.399999999999999" height="4.838709677419331" fill="#22c55e" rx="1"/><line x1="222.0" y1="195.6598240469208" x2="222.0" y2="215.89442815249262" stroke="#22c55e" stroke-width="1"/><rect x="217.8" y="205.7771260997067" width="8.399999999999999" height="3.9589442815249356" fill="#22c55e" rx="1"/><line x1="234.0" y1="199.17888563049848" x2="234.0" y2="219.41348973607032" stroke="#22c55e" stroke-width="1"/><rect x="229.8" y="206.65689149560112" width="8.399999999999999" height="4.3988269794721475" fill="#22c55e" rx="1"/><line x1="246.0" y1="179.82404692082105" x2="246.0" y2="215.89442815249262" stroke="#ef4444" stroke-width="1"/><rect x="241.8" y="189.50146627565977" width="8.399999999999999" height="26.392961876832857" fill="#ef4444" rx="1"/><line x1="258.0" y1="183.34310850439877" x2="258.0" y2="208.41642228739" stroke="#22c55e" stroke-width="1"/><rect x="253.8" y="193.90029325513188" width="8.399999999999999" height="5.2785923753666" fill="#22c55e" rx="1"/><line x1="270.0" y1="106.80351906158359" x2="270.0" y2="200.0586510263929" stroke="#ef4444" stroke-width="1"/><rect x="265.8" y="107.68328445747801" width="8.399999999999999" height="84.45747800586503" fill="#ef4444" rx="1"/><line x1="282.0" y1="62.815249266862224" x2="282.0" y2="100.64516129032259" stroke="#ef4444" stroke-width="1"/><rect x="277.8" y="79.97067448680356" width="8.399999999999999" height="17.155425219941336" fill="#ef4444" rx="1"/><line x1="294.0" y1="65.4545454545455" x2="294.0" y2="119.12023460410558" stroke="#22c55e" stroke-width="1"/><rect x="289.8" y="79.53079178885633" width="8.399999999999999" height="7.917888563049857" fill="#22c55e" rx="1"/><line x1="306.0" y1="74.25219941348978" x2="306.0" y2="98.44574780058653" stroke="#22c55e" stroke-width="1"/><rect x="301.8" y="84.8093841642229" width="8.399999999999999" height="9.237536656891493" fill="#22c55e" rx="1"/><line x1="318.0" y1="87.00879765395898" x2="318.0" y2="127.91788856304984" stroke="#22c55e" stroke-width="1"/><rect x="313.8" y="90.9677419354839" width="8.399999999999999" height="20.234604105571833" fill="#22c55e" rx="1"/><line x1="330.0" y1="99.76539589442817" x2="330.0" y2="124.39882697947213" stroke="#ef4444" stroke-width="1"/><rect x="325.8" y="110.76246334310851" width="8.399999999999999" height="1" fill="#ef4444" rx="1"/><line x1="342.0" y1="102.40469208211145" x2="342.0" y2="125.71847507331378" stroke="#22c55e" stroke-width="1"/><rect x="337.8" y="108.12316715542524" width="8.399999999999999" height="7.038123167155419" fill="#22c55e" rx="1"/><line x1="354.0" y1="93.16715542521996" x2="354.0" y2="142.8739002932551" stroke="#ef4444" stroke-width="1"/><rect x="349.8" y="100.64516129032259" width="8.399999999999999" height="18.035190615835774" fill="#ef4444" rx="1"/><line x1="366.0" y1="72.0527859237537" x2="366.0" y2="109.00293255131966" stroke="#ef4444" stroke-width="1"/><rect x="361.8" y="73.81231671554256" width="8.399999999999999" height="26.832844574780026" fill="#ef4444" rx="1"/><line x1="378.0" y1="22.346041055718537" x2="378.0" y2="81.73020527859241" stroke="#ef4444" stroke-width="1"/><rect x="373.8" y="22.78592375366575" width="8.399999999999999" height="49.706744868035166" fill="#ef4444" rx="1"/><line x1="390.0" y1="10.90909090909098" x2="390.0" y2="48.299120234604146" stroke="#22c55e" stroke-width="1"/><rect x="385.8" y="24.10557184750739" width="8.399999999999999" height="9.237536656891486" fill="#22c55e" rx="1"/><line x1="402.0" y1="19.26686217008804" x2="402.0" y2="84.8093841642229" stroke="#22c55e" stroke-width="1"/><rect x="397.8" y="33.34310850439888" width="8.399999999999999" height="45.30791788856303" fill="#22c55e" rx="1"/><line x1="414.0" y1="60.61583577712615" x2="414.0" y2="91.84750733137832" stroke="#ef4444" stroke-width="1"/><rect x="409.8" y="76.45161290322585" width="8.399999999999999" height="2.1994134897360595" fill="#ef4444" rx="1"/><line x1="426.0" y1="43.020527859237575" x2="426.0" y2="83.04985337243406" stroke="#ef4444" stroke-width="1"/><rect x="421.8" y="67.65395894428157" width="8.399999999999999" height="2.6392961876832857" fill="#ef4444" rx="1"/><line x1="438.0" y1="39.501466275659865" x2="438.0" y2="72.49266862170091" stroke="#ef4444" stroke-width="1"/><rect x="433.8" y="40.82111436950151" width="8.399999999999999" height="25.513196480938426" fill="#ef4444" rx="1"/><line x1="450.0" y1="34.66275659824052" x2="450.0" y2="76.89149560117306" stroke="#22c55e" stroke-width="1"/><rect x="445.8" y="39.941348973607084" width="8.399999999999999" height="23.313782991202352" fill="#22c55e" rx="1"/><line x1="462.0" y1="27.184750733137886" x2="462.0" y2="82.60997067448683" stroke="#22c55e" stroke-width="1"/><rect x="457.8" y="52.69794721407628" width="8.399999999999999" height="28.152492668621704" fill="#22c55e" rx="1"/><line x1="474.0" y1="76.01173020527864" x2="474.0" y2="126.5982404692082" stroke="#22c55e" stroke-width="1"/><rect x="469.8" y="83.48973607038127" width="8.399999999999999" height="34.31085043988266" fill="#22c55e" rx="1"/><line x1="486.0" y1="100.64516129032259" x2="486.0" y2="134.95601173020526" stroke="#ef4444" stroke-width="1"/><rect x="481.8" y="117.36070381231671" width="8.399999999999999" height="5.718475073313783" fill="#ef4444" rx="1"/><line x1="498.0" y1="104.16422287390031" x2="498.0" y2="126.158357771261" stroke="#22c55e" stroke-width="1"/><rect x="493.8" y="112.08211143695016" width="8.399999999999999" height="3.5190615835777095" fill="#22c55e" rx="1"/><line x1="510.0" y1="113.4017595307918" x2="510.0" y2="138.47507331378299" stroke="#22c55e" stroke-width="1"/><rect x="505.8" y="116.9208211143695" width="8.399999999999999" height="12.316715542521976" fill="#22c55e" rx="1"/><line x1="522.0" y1="94.92668621700882" x2="522.0" y2="135.39589442815247" stroke="#ef4444" stroke-width="1"/><rect x="517.8" y="112.52199413489737" width="8.399999999999999" height="16.71554252199411" fill="#ef4444" rx="1"/><line x1="534.0" y1="101.08504398826982" x2="534.0" y2="150.35190615835776" stroke="#22c55e" stroke-width="1"/><rect x="529.8" y="112.52199413489737" width="8.399999999999999" height="26.39296187683283" fill="#22c55e" rx="1"/><line x1="546.0" y1="133.63636363636363" x2="546.0" y2="157.39002932551318" stroke="#22c55e" stroke-width="1"/><rect x="541.8" y="145.5131964809384" width="8.399999999999999" height="10.557184750733114" fill="#22c55e" rx="1"/><line x1="558.0" y1="129.23753665689148" x2="558.0" y2="165.7478005865102" stroke="#ef4444" stroke-width="1"/><rect x="553.8" y="141.11436950146626" width="8.399999999999999" height="18.914956011730226" fill="#ef4444" rx="1"/><line x1="570.0" y1="121.75953079178885" x2="570.0" y2="146.39296187683283" stroke="#ef4444" stroke-width="1"/><rect x="565.8" y="123.0791788856305" width="8.399999999999999" height="19.794721407624607" fill="#ef4444" rx="1"/><line x1="582.0" y1="119.12023460410558" x2="582.0" y2="141.99413489736068" stroke="#22c55e" stroke-width="1"/><rect x="577.8" y="121.75953079178885" width="8.399999999999999" height="19.79472140762462" fill="#22c55e" rx="1"/><line x1="594.0" y1="139.3548387096774" x2="594.0" y2="156.51026392961876" stroke="#ef4444" stroke-width="1"/><rect x="589.8" y="140.67448680351904" width="8.399999999999999" height="7.478005865102631" fill="#ef4444" rx="1"/><line x1="606.0" y1="125.71847507331378" x2="606.0" y2="149.0322580645161" stroke="#ef4444" stroke-width="1"/><rect x="601.8" y="126.158357771261" width="8.399999999999999" height="19.35483870967741" fill="#ef4444" rx="1"/><line x1="618.0" y1="74.69208211143699" x2="618.0" y2="132.316715542522" stroke="#ef4444" stroke-width="1"/><rect x="613.8" y="103.72434017595309" width="8.399999999999999" height="24.193548387096754" fill="#ef4444" rx="1"/><line x1="630.0" y1="97.1260997067449" x2="630.0" y2="130.1173020527859" stroke="#ef4444" stroke-width="1"/><rect x="625.8" y="103.72434017595309" width="8.399999999999999" height="3.9589442815249214" fill="#ef4444" rx="1"/><line x1="642.0" y1="86.56891495601175" x2="642.0" y2="106.36363636363637" stroke="#ef4444" stroke-width="1"/><rect x="637.8" y="89.20821114369504" width="8.399999999999999" height="14.51612903225805" fill="#ef4444" rx="1"/><line x1="654.0" y1="83.04985337243406" x2="654.0" y2="116.9208211143695" stroke="#22c55e" stroke-width="1"/><rect x="649.8" y="97.1260997067449" width="8.399999999999999" height="15.835777126099686" fill="#22c55e" rx="1"/><line x1="666.0" y1="103.28445747800588" x2="666.0" y2="156.51026392961876" stroke="#22c55e" stroke-width="1"/><rect x="661.8" y="115.60117302052787" width="8.399999999999999" height="38.26979472140762" fill="#22c55e" rx="1"/><line x1="678.0" y1="141.99413489736068" x2="678.0" y2="169.26686217008793" stroke="#22c55e" stroke-width="1"/><rect x="673.8" y="154.31085043988267" width="8.399999999999999" height="4.3988269794721475" fill="#22c55e" rx="1"/><line x1="690.0" y1="151.2316715542522" x2="690.0" y2="167.50733137829909" stroke="#22c55e" stroke-width="1"/><rect x="685.8" y="156.07038123167152" width="8.399999999999999" height="1.3196480938416641" fill="#22c55e" rx="1"/><line x1="702.0" y1="116.48093841642229" x2="702.0" y2="157.39002932551318" stroke="#ef4444" stroke-width="1"/><rect x="697.8" y="134.51612903225805" width="8.399999999999999" height="22.873900293255133" fill="#ef4444" rx="1"/><line x1="714.0" y1="127.03812316715542" x2="714.0" y2="156.51026392961876" stroke="#22c55e" stroke-width="1"/><rect x="709.8" y="131.87683284457478" width="8.399999999999999" height="18.91495601173017" fill="#22c55e" rx="1"/><line x1="726.0" y1="142.4340175953079" x2="726.0" y2="166.18768328445748" stroke="#22c55e" stroke-width="1"/><rect x="721.8" y="154.31085043988267" width="8.399999999999999" height="2.199413489736088" fill="#22c55e" rx="1"/><line x1="738.0" y1="140.23460410557183" x2="738.0" y2="167.94721407624633" stroke="#ef4444" stroke-width="1"/><rect x="733.8" y="143.31378299120232" width="8.399999999999999" height="12.756598240469202" fill="#ef4444" rx="1"/><line x1="750.0" y1="141.11436950146626" x2="750.0" y2="180.26392961876832" stroke="#22c55e" stroke-width="1"/><rect x="745.8" y="150.35190615835776" width="8.399999999999999" height="25.073313782991164" fill="#22c55e" rx="1"/><line x1="762.0" y1="137.59530791788853" x2="762.0" y2="174.10557184750732" stroke="#ef4444" stroke-width="1"/><rect x="757.8" y="145.95307917888562" width="8.399999999999999" height="25.953079178885588" fill="#ef4444" rx="1"/><line x1="774.0" y1="132.7565982404692" x2="774.0" y2="152.55131964809382" stroke="#ef4444" stroke-width="1"/><rect x="769.8" y="137.59530791788853" width="8.399999999999999" height="8.357771260997083" fill="#ef4444" rx="1"/>
+<line x1="60" y1="94.9" x2="780" y2="94.9" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.6"/><line x1="60" y1="137.6" x2="780" y2="137.6" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.4"/><line x1="60" y1="180.4" x2="780" y2="180.4" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.6"/>
+<path d="M 114.0 88.1 L 126.0 104.4 L 138.0 129.1 L 150.0 150.8 L 162.0 165.7 L 174.0 188.3 L 186.0 205.5 L 198.0 206.7 L 210.0 206.3 L 222.0 209.2 L 234.0 205.9 L 246.0 200.1 L 258.0 202.1 L 270.0 183.4 L 282.0 157.5 L 294.0 132.8 L 306.0 113.7 L 318.0 96.1 L 330.0 96.7 L 342.0 103.7 L 354.0 106.4 L 366.0 102.3 L 378.0 84.6 L 390.0 69.1 L 402.0 61.8 L 414.0 57.0 L 426.0 55.8 L 438.0 59.4 L 450.0 65.4 L 462.0 65.8 L 474.0 74.1 L 486.0 84.0 L 498.0 99.0 L 510.0 112.2 L 522.0 118.5 L 534.0 122.7 L 546.0 130.5 L 558.0 135.6 L 570.0 134.3 L 582.0 140.1 L 594.0 140.5 L 606.0 134.5 L 618.0 127.0 L 630.0 123.2 L 642.0 112.7 L 654.0 107.2 L 666.0 112.7 L 678.0 123.7 L 690.0 134.4 L 702.0 143.5 L 714.0 151.1 L 726.0 151.6 L 738.0 148.5 L 750.0 152.1 L 762.0 154.4 L 774.0 151.8 " fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+<path d="M 294.0 153.7 L 306.0 155.9 L 318.0 158.5 L 330.0 159.3 L 342.0 159.0 L 354.0 158.3 L 366.0 155.4 L 378.0 147.4 L 390.0 138.9 L 402.0 133.1 L 414.0 125.5 L 426.0 118.0 L 438.0 110.5 L 450.0 103.7 L 462.0 97.2 L 474.0 92.6 L 486.0 88.9 L 498.0 84.8 L 510.0 85.8 L 522.0 87.5 L 534.0 90.0 L 546.0 93.1 L 558.0 94.6 L 570.0 95.3 L 582.0 96.6 L 594.0 98.6 L 606.0 101.2 L 618.0 105.2 L 630.0 108.8 L 642.0 109.3 L 654.0 111.1 L 666.0 115.4 L 678.0 121.3 L 690.0 126.0 L 702.0 128.7 L 714.0 130.4 L 726.0 132.3 L 738.0 133.7 L 750.0 136.0 L 762.0 137.7 L 774.0 137.6 " fill="none" stroke="#60a5fa" stroke-width="1.2"/>
+<rect x="61.8" y="299.8463831061339" width="8.399999999999999" height="20.15361689386613" fill="#22c55e" opacity="0.4" rx="1"/><rect x="73.8" y="303.64684220850955" width="8.399999999999999" height="16.35315779149043" fill="#22c55e" opacity="0.4" rx="1"/><rect x="85.8" y="301.816820217024" width="8.399999999999999" height="18.183179782976044" fill="#22c55e" opacity="0.4" rx="1"/><rect x="97.8" y="303.1130169633854" width="8.399999999999999" height="16.88698303661462" fill="#22c55e" opacity="0.4" rx="1"/><rect x="109.8" y="306.85574067254714" width="8.399999999999999" height="13.144259327452879" fill="#ef4444" opacity="0.4" rx="1"/><rect x="121.8" y="307.6718003076743" width="8.399999999999999" height="12.328199692325697" fill="#22c55e" opacity="0.4" rx="1"/><rect x="133.8" y="303.6814504055863" width="8.399999999999999" height="16.318549594413682" fill="#22c55e" opacity="0.4" rx="1"/><rect x="145.8" y="303.7680947939718" width="8.399999999999999" height="16.231905206028213" fill="#22c55e" opacity="0.4" rx="1"/><rect x="157.8" y="307.2358526604879" width="8.399999999999999" height="12.764147339512057" fill="#ef4444" opacity="0.4" rx="1"/><rect x="169.8" y="308.86301610299864" width="8.399999999999999" height="11.13698389700138" fill="#22c55e" opacity="0.4" rx="1"/><rect x="181.8" y="310.88738913916586" width="8.399999999999999" height="9.112610860834163" fill="#ef4444" opacity="0.4" rx="1"/><rect x="193.8" y="303.88769543685277" width="8.399999999999999" height="16.112304563147227" fill="#ef4444" opacity="0.4" rx="1"/><rect x="205.8" y="305.11500617757696" width="8.399999999999999" height="14.884993822423056" fill="#22c55e" opacity="0.4" rx="1"/><rect x="217.8" y="308.4312809093944" width="8.399999999999999" height="11.56871909060561" fill="#22c55e" opacity="0.4" rx="1"/><rect x="229.8" y="312.28625411695066" width="8.399999999999999" height="7.713745883049348" fill="#22c55e" opacity="0.4" rx="1"/><rect x="241.8" y="312.09124229523655" width="8.399999999999999" height="7.908757704763445" fill="#ef4444" opacity="0.4" rx="1"/><rect x="253.8" y="311.1345197493177" width="8.399999999999999" height="8.865480250682287" fill="#22c55e" opacity="0.4" rx="1"/><rect x="265.8" y="287.90184707829866" width="8.399999999999999" height="32.09815292170136" fill="#ef4444" opacity="0.4" rx="1"/><rect x="277.8" y="296.11175391562017" width="8.399999999999999" height="23.888246084379855" fill="#ef4444" opacity="0.4" rx="1"/><rect x="289.8" y="298.72611824467333" width="8.399999999999999" height="21.273881755326656" fill="#22c55e" opacity="0.4" rx="1"/><rect x="301.8" y="304.995405534696" width="8.399999999999999" height="15.004594465304045" fill="#22c55e" opacity="0.4" rx="1"/><rect x="313.8" y="297.6393052204827" width="8.399999999999999" height="22.36069477951729" fill="#22c55e" opacity="0.4" rx="1"/><rect x="325.8" y="300.57852405813463" width="8.399999999999999" height="19.42147594186539" fill="#ef4444" opacity="0.4" rx="1"/><rect x="337.8" y="304.9031445415343" width="8.399999999999999" height="15.09685545846569" fill="#22c55e" opacity="0.4" rx="1"/><rect x="349.8" y="295.74989589320194" width="8.399999999999999" height="24.250104106798087" fill="#ef4444" opacity="0.4" rx="1"/><rect x="361.8" y="292.8659345348921" width="8.399999999999999" height="27.134065465107877" fill="#ef4444" opacity="0.4" rx="1"/><rect x="373.8" y="280.4361403738208" width="8.399999999999999" height="39.563859626179166" fill="#ef4444" opacity="0.4" rx="1"/><rect x="385.8" y="279.52831532830635" width="8.399999999999999" height="40.47168467169362" fill="#22c55e" opacity="0.4" rx="1"/><rect x="397.8" y="279.0686623050794" width="8.399999999999999" height="40.93133769492063" fill="#22c55e" opacity="0.4" rx="1"/><rect x="409.8" y="295.07350800331767" width="8.399999999999999" height="24.926491996682355" fill="#ef4444" opacity="0.4" rx="1"/><rect x="421.8" y="285.1821714096921" width="8.399999999999999" height="34.81782859030792" fill="#ef4444" opacity="0.4" rx="1"/><rect x="433.8" y="296.4939308317875" width="8.399999999999999" height="23.506069168212495" fill="#ef4444" opacity="0.4" rx="1"/><rect x="445.8" y="296.38853689510506" width="8.399999999999999" height="23.611463104894913" fill="#22c55e" opacity="0.4" rx="1"/><rect x="457.8" y="298.4849346278139" width="8.399999999999999" height="21.515065372186108" fill="#22c55e" opacity="0.4" rx="1"/><rect x="469.8" y="293.7150330216439" width="8.399999999999999" height="26.284966978356113" fill="#22c55e" opacity="0.4" rx="1"/><rect x="481.8" y="295.84017455526606" width="8.399999999999999" height="24.15982544473392" fill="#ef4444" opacity="0.4" rx="1"/><rect x="493.8" y="301.63361978476564" width="8.399999999999999" height="18.366380215234354" fill="#22c55e" opacity="0.4" rx="1"/><rect x="505.8" y="299.4320759067616" width="8.399999999999999" height="20.567924093238393" fill="#22c55e" opacity="0.4" rx="1"/><rect x="517.8" y="296.9424332425912" width="8.399999999999999" height="23.057566757408793" fill="#ef4444" opacity="0.4" rx="1"/><rect x="529.8" y="294.25282292896304" width="8.399999999999999" height="25.747177071036973" fill="#22c55e" opacity="0.4" rx="1"/><rect x="541.8" y="302.3698079960904" width="8.399999999999999" height="17.630192003909595" fill="#22c55e" opacity="0.4" rx="1"/><rect x="553.8" y="301.6782222344588" width="8.399999999999999" height="18.321777765541167" fill="#ef4444" opacity="0.4" rx="1"/><rect x="565.8" y="302.8587830001342" width="8.399999999999999" height="17.141216999865783" fill="#ef4444" opacity="0.4" rx="1"/><rect x="577.8" y="303.62536695495356" width="8.399999999999999" height="16.374633045046412" fill="#22c55e" opacity="0.4" rx="1"/><rect x="589.8" y="304.9933406064694" width="8.399999999999999" height="15.006659393530581" fill="#ef4444" opacity="0.4" rx="1"/><rect x="601.8" y="301.2880333967725" width="8.399999999999999" height="18.711966603227484" fill="#ef4444" opacity="0.4" rx="1"/><rect x="613.8" y="272.0" width="8.399999999999999" height="48.0" fill="#ef4444" opacity="0.4" rx="1"/><rect x="625.8" y="293.2543062357391" width="8.399999999999999" height="26.74569376426091" fill="#ef4444" opacity="0.4" rx="1"/><rect x="637.8" y="298.5404398985432" width="8.399999999999999" height="21.45956010145681" fill="#ef4444" opacity="0.4" rx="1"/><rect x="649.8" y="296.32179841482343" width="8.399999999999999" height="23.67820158517657" fill="#22c55e" opacity="0.4" rx="1"/><rect x="661.8" y="291.9789239659012" width="8.399999999999999" height="28.02107603409885" fill="#22c55e" opacity="0.4" rx="1"/><rect x="673.8" y="292.9958598189058" width="8.399999999999999" height="27.004140181094204" fill="#22c55e" opacity="0.4" rx="1"/><rect x="685.8" y="304.585475983164" width="8.399999999999999" height="15.41452401683605" fill="#22c55e" opacity="0.4" rx="1"/><rect x="697.8" y="294.2105331988836" width="8.399999999999999" height="25.789466801116443" fill="#ef4444" opacity="0.4" rx="1"/><rect x="709.8" y="302.06485939559553" width="8.399999999999999" height="17.93514060440449" fill="#22c55e" opacity="0.4" rx="1"/><rect x="721.8" y="303.3874872232566" width="8.399999999999999" height="16.6125127767434" fill="#22c55e" opacity="0.4" rx="1"/><rect x="733.8" y="302.4581043270571" width="8.399999999999999" height="17.541895672942903" fill="#ef4444" opacity="0.4" rx="1"/><rect x="745.8" y="294.6342564709688" width="8.399999999999999" height="25.36574352903117" fill="#22c55e" opacity="0.4" rx="1"/><rect x="757.8" y="300.4291058516624" width="8.399999999999999" height="19.570894148337562" fill="#ef4444" opacity="0.4" rx="1"/><rect x="769.8" y="303.64147339512056" width="8.399999999999999" height="16.358526604879426" fill="#ef4444" opacity="0.4" rx="1"/>
+<text x="66" y="335" text-anchor="middle" fill="#475569" font-size="8">03-16</text><text x="150" y="335" text-anchor="middle" fill="#475569" font-size="8">03-25</text><text x="234" y="335" text-anchor="middle" fill="#475569" font-size="8">04-03</text><text x="318" y="335" text-anchor="middle" fill="#475569" font-size="8">04-15</text><text x="402" y="335" text-anchor="middle" fill="#475569" font-size="8">04-24</text><text x="486" y="335" text-anchor="middle" fill="#475569" font-size="8">05-08</text><text x="570" y="335" text-anchor="middle" fill="#475569" font-size="8">05-19</text><text x="654" y="335" text-anchor="middle" fill="#475569" font-size="8">05-28</text><text x="738" y="335" text-anchor="middle" fill="#475569" font-size="8">06-08</text>
+<!-- 图例 -->
+<rect x="60" y="5" width="8" height="8" fill="#fbbf24" rx="2"/><text x="72" y="12" fill="#fbbf24" font-size="8">MA5</text>
+<rect x="110" y="5" width="8" height="8" fill="#60a5fa" rx="2"/><text x="122" y="12" fill="#60a5fa" font-size="8">MA20</text>
+<rect x="170" y="5" width="8" height="3" fill="#8b5cf6" rx="1"/><text x="182" y="12" fill="#8b5cf6" font-size="8">布林带</text>
+</svg>
+  </div>
+
+  <!-- 技术面分析文字 (v6.1新增) -->
+  <div style="margin-top:14px;padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #fbbf24">
+    <div style="font-size:12px;color:#fbbf24;font-weight:bold;margin-bottom:6px">📝 技术面综合研判</div>
+    <div style="font-size:11px;color:#94a3b8;line-height:1.6">均线系统呈空头排列，MA5(4726)<MA20(4758)<MA60(4782)，短中期趋势偏空。RSI(14)=47.6中性区域，多空均衡。MACD死叉运行中(DIF=-20.3<DEA=-17.7)，绿柱5.4。价格运行于布林中轨(4758)附近。ATR=74.6反映日均波动75点。ADX=12<22，市场缺乏明确趋势，震荡格局。</div>
+  </div>
+</div>
+
+<!-- ====== 政策分析（扩充版） ====== -->
+<div class="card">
+  <div class="card-title">📋 政策分析 · 详细解读与来源
+    <span class="ref-badge">农业农村部</span><span class="ref-badge">中储粮</span><span class="ref-badge">海关总署</span>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="policy-card">
+        <div class="policy-title">💰 种植补贴</div>
+        <div class="policy-text" style="font-weight:bold;margin-bottom:4px">350元/亩 (同比+0%)</div>
+        <div class="policy-text">黑龙江大豆生产者补贴，已连续3年维持350元/亩</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">2026年黑龙江省继续实施大豆生产者补贴政策，补贴标准维持350元/亩不变。该政策自2023年起由200元/亩提升至350元/亩，已连续三年维持此水平。补贴覆盖黑龙江全省大豆种植面积，有效保障了豆农种植收益，对稳定国产大豆种植面积起到关键支撑作用。内蒙古、吉林等省区也有相应补贴政策，但标准略有差异。</div>
+        <div class="source-cite">来源: 黑龙江省农业农村厅/财政部</div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">🌱 种植面积</div>
+        <div class="policy-text" style="font-weight:bold;margin-bottom:4px">1.65亿亩 (同比+2.5%)</div>
+        <div class="policy-text">2026年大豆种植面积目标1.70亿亩，目前完成97%</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">根据农业农村部部署，2026年全国大豆种植面积目标1.70亿亩，同比增加约400万亩。截至5月底，全国大豆播种进度约97%，黑龙江主产区基本完成播种。扩种大豆是国家粮食安全战略的重要组成部分，东北产区通过大豆玉米带状复合种植等方式持续扩大大豆面积。</div>
+        <div class="source-cite">来源: 农业农村部种植业管理司</div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">🔄 轮储计划</div>
+        <div class="policy-text">轮储计划: 2026年计划轮出200万吨，已执行约60%</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">2026年中储粮大豆轮储计划安排轮出约200万吨国产大豆。截至6月上旬，已执行约60%的轮出任务。轮储的目的是保证国家储备大豆的品质，将陈年储备大豆投放市场，同时补充新豆入库。轮出节奏对市场供应有直接影响，大量轮出会增加短期供应压力。</div>
+        <div class="source-cite">来源: 中储粮集团/国家粮食和物资储备局</div>
+      </div>
+    </div>
+    <div>
+      <div class="policy-card">
+        <div class="policy-title">🛂 进口关税</div>
+        <div class="policy-text">WTO框架下大豆进口关税3%，对美豆额外加征25%关税</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">中国大豆进口在WTO框架下适用3%的约束关税率，无配额限制。但对美国大豆额外加征25%的报复性关税（源于中美贸易摩擦），使得美豆进口总关税率达28%。这一政策推动进口来源向巴西、阿根廷等南美国家转移，巴西豆占中国进口大豆比例已超过75%。</div>
+        <div class="source-cite">来源: 国务院关税税则委员会/海关总署</div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">🇺🇸 中美贸易</div>
+        <div class="policy-text">中美贸易关税持续，美豆进口成本增加，转向巴西豆替代</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">中美贸易摩擦背景下，对美豆加征25%关税政策持续执行。2026年以来中美贸易关系未见实质性改善，美豆进口成本较巴西豆高出约300-500元/吨。中国持续加大从巴西进口力度，巴西大豆出口中国占比维持高位。若关税政策调整，将对国内外大豆价差产生重大影响。</div>
+        <div class="source-cite">来源: 商务部/海关总署</div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-title">📜 国家政策</div>
+        <div class="policy-text">2026年中央一号文件: 巩固大豆扩种成果，提高单产水平</div>
+        <div class="policy-text" style="margin-top:4px;color:#b0b8c8">2026年中央一号文件明确提出'巩固大豆扩种成果，提高单产水平'的战略方向。具体措施包括：加大良种推广力度、推进大豆玉米带状复合种植、完善补贴保险政策、强化科技支撑等。政策信号明确偏多，为国产大豆价格提供长期底部支撑。国家粮食安全战略下，大豆自给率提升是长期目标。</div>
+        <div class="source-cite">来源: 中共中央/国务院(中央一号文件)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 市场动态 ====== -->
+<div class="card">
+  <div class="card-title">📰 市场动态 · 要闻与观点
+    <span class="ref-badge">东方财富</span><span class="ref-badge">生意社</span>
+  </div>
+
+  <!-- 市场要闻 -->
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;color:#fbbf24;font-weight:bold;margin-bottom:8px">📰 豆一市场要闻（近7天，按时间倒序）</div>
+    <div style="background:#0a1628;border-radius:8px;overflow:hidden">
+      <div class="news-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#e0e0e0">CBOT农产品期货主力合约收盘多数上涨，大豆期货涨0.90%</span>
+    <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:8px">2026-06-11</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">当地时间6月10日，芝加哥期货交易所（CBOT）农产品期货主力合约收盘多数上涨，大豆期货涨0.90%报1123.75美分/蒲式耳，玉米期货跌0.06%报419.25美分/蒲式耳，小麦期货涨0.34%报587.25美分/蒲式耳。</div>
+  <div style="font-size:9px;color:#475569;margin-top:2px">来源: 每日经济新闻</div>
+</div><div class="news-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#e0e0e0">截至6月4日当周 美国2025/2026年度大豆出口净销售为21.13万吨</span>
+    <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:8px">2026-06-11</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">美国农业部数据显示，截至6月4日当周，美国2025/2026年度大豆出口净销售为21.13万吨，较前一周下降24%，较过去四周均值下降18%。</div>
+  <div style="font-size:9px;color:#475569;margin-top:2px">来源: 新华财经</div>
+</div><div class="news-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#e0e0e0">CBOT农产品期货主力合约收盘全线下跌，大豆期货跌2.19%</span>
+    <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:8px">2026-06-05</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">当地时间4日，芝加哥期货交易所（CBOT）农产品期货主力合约收盘全线下跌，大豆期货跌2.19%报1128.75美分/蒲式耳，玉米期货跌1.85%报423.5美分/蒲式耳，小麦期货跌0.85%报582.25美分/蒲式耳。</div>
+  <div style="font-size:9px;color:#475569;margin-top:2px">来源: 每日经济新闻</div>
+</div>
+      
+    </div>
+    <div style="margin-top:6px">
+      <span class="tag tb">情绪: neutral</span>
+      <span class="tag tb">其他</span><span class="tag tb">国产供应</span><span class="tag tb">政策收储</span><span class="tag tb">进口到港</span>
+    </div>
+  </div>
+
+  <!-- 市场观点 -->
+  <div>
+    <div style="font-size:13px;color:#60a5fa;font-weight:bold;margin-bottom:8px">🏛 市场观点（近1月期货公司研究所核心观点，含1-3月预判）</div>
+    <div style="background:#0a1628;border-radius:8px;overflow:hidden">
+      <div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 国投期货</span>
+    <span style="font-size:9px;color:#64748b">2026-06-11</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">【大豆、豆粕】 　　USDA6月报告将于北京时间12日0点公布。从目前公布的路透预测均值来看，预计美国25/26年度大豆期末库存预计为3.38亿蒲式耳，略低于 5月报告中预估值为3.40亿蒲式耳。</div>
+</div><div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 正信期货</span>
+    <span style="font-size:9px;color:#64748b">2026-06-10</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">USDA5月报告预计2026/27年度美国大豆库存从当前年度末的3.4亿蒲式耳降至3.1亿蒲式耳，低于预期；同时预计2026年美国大豆产量为44.35亿蒲式耳，低于市场平均预期，支撑美豆价格。南美整体呈丰产预期，对美豆盘面形成压力。</div>
+</div><div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 东吴期货</span>
+    <span style="font-size:9px;color:#64748b">2026-06-08</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">首先，以色列与黎巴嫩达成停火协议，美国和伊朗达成协议的预期增加，原油大跌拖累油脂；其次，美国对华重启301关税调查，中美贸易关系转差，市场预期中国可能并不会如此前达成的协议采购美国大豆，导致CBOT大豆价格大跌；第三、即将发布两份重要报告USDA月报和MPOB月报，市场均预期偏空。</div>
+</div><div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 大越期货</span>
+    <span style="font-size:9px;color:#64748b">2026-06-04</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">国内大豆震荡回升，现货偏强和需求短期良好支撑盘面，而进口大豆到港增多，中美贸易后续谈判仍有不确定性，短期维持高位震荡。中性。 　　2.基差：现货4700，基差-65，贴水期货。</div>
+</div><div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 五矿期货</span>
+    <span style="font-size:9px;color:#64748b">2026-06-02</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">【策略观点】 　　USDA 5月报告预估全球大豆延续丰产，但消费亦增加，库销比小幅下调，没有明显的供需矛盾。从国内来看，目前大豆和豆粕库存处于近年同期高位，基本面偏弱，短线维持观望。</div>
+</div><div class="view-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 五矿期货</span>
+    <span style="font-size:9px;color:#64748b">2026-05-29</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">【策略观点】 　　USDA 5月报告预估全球大豆延续丰产，但消费亦增加，库销比小幅下调，没有明显的供需矛盾。从国内来看，目前大豆和豆粕库存处于近年同期高位，基本面偏弱，短线维持观望。</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ③ 市场状态判定面板 (v6.1: 移至流程图前) ====== -->
+<div class="card">
+  <div class="card-title">🔍 市场状态判定 · 震荡/趋势诊断
+    <span class="weight-badge" style="background:#f59e0b20;color:#f59e0b;font-size:12px">当前: 宽幅震荡</span>
+  </div>
+  <div style="background:#0a1628;border-radius:10px;padding:16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:40px">🟡</div>
+      <div>
+        <div style="font-size:18px;font-weight:bold;color:#f59e0b">宽幅震荡 · 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px">ADX=12<22，方向不明确。综合评分+14.3由基本+政策+季节70%驱动</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <span class="weight-badge" style="background:#8b5cf620;color:#a78bfa">判定权重: 技术30% + (基本面+政策+季节性)70%</span>
+      <span style="font-size:12px;color:#64748b">ADX=12 | 多头↑ | 综合=+14.3</span>
+    </div>
+  </div>
+
+  <!-- 四维评分明细 -->
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div style="font-size:11px;color:#fbbf24;margin-bottom:4px;font-weight:bold">📐 技术面 (30%权重, -13)</div>
+      
+    <div class="diag-row">
+      <span class="diag-factor">ADX趋势强度</span>
+      <span class="diag-score" style="color:#f87171">-8</span>
+      <span class="diag-detail" style="color:#fbbf24">ADX=12<22，震荡格局</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">DI方向性</span>
+      <span class="diag-score" style="color:#f87171">-5</span>
+      <span class="diag-detail" style="color:#fbbf24">+DI/-DI差值5<10，方向模糊→震荡特征</span>
+    </div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:#60a5fa;margin-bottom:4px;font-weight:bold">🌍 基本面 (-8)</div>
+      
+    <div class="diag-row">
+      <span class="diag-factor">港口库存</span>
+      <span class="diag-score" style="color:#34d399">+0</span>
+      <span class="diag-detail" style="color:#60a5fa">库存885.01万吨中性</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">进口到港</span>
+      <span class="diag-score" style="color:#f87171">-14</span>
+      <span class="diag-detail" style="color:#60a5fa">月到港1150万吨，进口冲击强→偏空</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">中储粮收储</span>
+      <span class="diag-score" style="color:#34d399">+10</span>
+      <span class="diag-detail" style="color:#60a5fa">购销双向采购价4650元/吨(销售价4500)，强托底信号</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">中储粮拍卖</span>
+      <span class="diag-score" style="color:#34d399">+4</span>
+      <span class="diag-detail" style="color:#60a5fa">竞价成交，政策托底有效</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">现货基差</span>
+      <span class="diag-score" style="color:#34d399">+0</span>
+      <span class="diag-detail" style="color:#60a5fa">基差-149元，基本正常</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">持仓结构</span>
+      <span class="diag-score" style="color:#f87171">-8</span>
+      <span class="diag-detail" style="color:#60a5fa">机构持仓偏空→偏空</span>
+    </div>
+    </div>
+  </div>
+  <div class="grid2" style="gap:10px;margin-top:8px">
+    <div>
+      <div style="font-size:11px;color:#a78bfa;margin-bottom:4px;font-weight:bold">📋 政策面 (+31)</div>
+      
+    <div class="diag-row">
+      <span class="diag-factor">中央一号文件</span>
+      <span class="diag-score" style="color:#34d399">+10</span>
+      <span class="diag-detail" style="color:#a78bfa">巩固大豆扩种成果→长期利多</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">种植补贴</span>
+      <span class="diag-score" style="color:#34d399">+6</span>
+      <span class="diag-detail" style="color:#a78bfa">补贴350元/亩，保障种植意愿→偏多</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">种植面积</span>
+      <span class="diag-score" style="color:#34d399">+4</span>
+      <span class="diag-detail" style="color:#a78bfa">面积1.65亿亩，接近目标1.7亿亩</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">轮储计划</span>
+      <span class="diag-score" style="color:#34d399">+3</span>
+      <span class="diag-detail" style="color:#a78bfa">轮出200万吨，稳定市场预期</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">美豆关税</span>
+      <span class="diag-score" style="color:#34d399">+5</span>
+      <span class="diag-detail" style="color:#a78bfa">对美豆加征25%关税→国产豆替代受益</span>
+    </div>
+    <div class="diag-row">
+      <span class="diag-factor">产区天气</span>
+      <span class="diag-score" style="color:#34d399">+3</span>
+      <span class="diag-detail" style="color:#a78bfa">天气偏冷:东北产区积温偏低，大豆生长进度略慢于往年同期。6月上旬黑龙江→关注减产风险</span>
+    </div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:#2dd4bf;margin-bottom:4px;font-weight:bold">📅 季节性 (+3)</div>
+      
+    <div class="diag-row">
+      <span class="diag-factor">季节性周期</span>
+      <span class="diag-score" style="color:#34d399">+3</span>
+      <span class="diag-detail" style="color:#2dd4bf">6月中性季节，关注天气驱动</span>
+    </div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap">
+    <div style="flex:1;padding:8px 12px;background:#132232;border-radius:8px;text-align:center">
+      <span style="font-size:10px;color:#64748b">基本+政策+季节(70%):</span>
+      <span style="font-size:14px;font-weight:bold;color:#34d399;margin-left:6px">+26</span>
+    </div>
+    <div style="flex:1;padding:8px 12px;background:#132232;border-radius:8px;text-align:center">
+      <span style="font-size:10px;color:#64748b">综合判定:</span>
+      <span style="font-size:14px;font-weight:bold;color:#f59e0b;margin-left:6px">+14.3</span>
+    </div>
+    <div style="flex:2;padding:8px 12px;background:#0a1628;border-radius:8px;font-size:10px;color:#64748b">
+      <strong>切换条件:</strong> ADX≥22 + 基本+政策+季节评分正向 → 可切换至趋势(分支B)
+    </div>
+  </div>
+</div>
+
+<!-- ====== 四因子评分 v6.1 ====== -->
+<div class="card">
+  <div class="card-title">🎨 四因子评分 v6.1
+    <span class="weight-badge" style="background:#3b82f620;color:#60a5fa;font-size:10px">宏观35% > 政策30% > 季节20% > 技术15%</span>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="factor-bar">
+  <span class="factor-label">① 宏观基本面</span>
+  <div class="factor-track"><div class="factor-fill" style="width:52.0%;background:linear-gradient(90deg,#3b82f6,#60a5fa)"></div></div>
+  <span class="factor-val">+4</span>
+  <span style="font-size:9px;color:#475569;width:30px;text-align:right">35%</span>
+</div>
+      <div class="factor-bar">
+  <span class="factor-label">② 政策面</span>
+  <div class="factor-track"><div class="factor-fill" style="width:78.0%;background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div></div>
+  <span class="factor-val">+56</span>
+  <span style="font-size:9px;color:#475569;width:30px;text-align:right">30%</span>
+</div>
+      <div class="factor-bar">
+  <span class="factor-label">③ 季节性</span>
+  <div class="factor-track"><div class="factor-fill" style="width:50.5%;background:linear-gradient(90deg,#14b8a6,#2dd4bf)"></div></div>
+  <span class="factor-val">+1</span>
+  <span style="font-size:9px;color:#475569;width:30px;text-align:right">20%</span>
+</div>
+      <div class="factor-bar">
+  <span class="factor-label">④ 技术面</span>
+  <div class="factor-track"><div class="factor-fill" style="width:41.5%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div>
+  <span class="factor-val">-17</span>
+  <span style="font-size:9px;color:#475569;width:30px;text-align:right">15%</span>
+</div>
+    </div>
+    <div style="text-align:center;display:flex;align-items:center;justify-content:center">
+      <div style="background:#0a1628;border-radius:12px;padding:24px;border:2px solid #3b82f640">
+        <div style="font-size:11px;color:#64748b">综合评分</div>
+        <div style="font-size:36px;font-weight:bold;color:#34d399">+16</div>
+        <div style="font-size:10px;color:#64748b">满分100</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 量化决策流程图 ====== -->
+<div class="card">
+  <div class="card-title">📐 量化决策流程图 · 双分支决策辅助
+    <span class="ref-badge">基于方正中期+国泰期货框架</span>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+    <span class="weight-badge" style="background:#f59e0b20;color:#fbbf24">分支A 震荡: 技术面70% + 基本面30%</span>
+    <span class="weight-badge" style="background:#3b82f620;color:#60a5fa">分支B 趋势: 技术面30% + 基本面70%</span>
+    <span style="font-size:11px;color:#a78bfa">市场判定: 技术30% + (基本面+政策+季节性)70%</span>
+    <span class="tag ty">当前激活: 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</span>
+  </div>
+  <div class="flowchart-container">
+    <svg viewBox="0 0 900 780" xmlns="http://www.w3.org/2000/svg">
+<style>
+  text { font-family: "Microsoft YaHei","PingFang SC",sans-serif; }
+  .box-a { fill:#132232; stroke:#f59e0b; stroke-width:1.5; rx:8 }
+  .box-b { fill:#132232; stroke:#3b82f6; stroke-width:1.5; rx:8 }
+  .box-out { fill:#0a1628; stroke:#1e3a5f; stroke-width:1.2; rx:10 }
+  .box-sig { fill:#0a1628; rx:8 }
+  .lbl-tech { font-size:9; fill:#fbbf24 }
+  .lbl-fund { font-size:9; fill:#60a5fa }
+  .lbl-meta { font-size:8; fill:#64748b }
+  .lbl-white { font-size:10; fill:#e0e0e0 }
+  .arrow { stroke:#64748b; stroke-width:1.2; fill:none }
+  .arrow-head { fill:#64748b }
+  .active { fill:none; stroke:#f59e0b; stroke-width:3; stroke-dasharray:8,4; rx:12 }
+</style>
+<defs>
+  <linearGradient id="gA2" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.12"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0.04"/>
+  </linearGradient>
+  <linearGradient id="gB2" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.12"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0.04"/>
+  </linearGradient>
+  <linearGradient id="gRes" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.3"/><stop offset="100%" stop-color="#0a1628" stop-opacity="0.6"/>
+  </linearGradient>
+  <filter id="glow2"><feGaussianBlur stdDeviation="2"/></filter>
+</defs>
+<rect width="900" height="780" fill="#0f1923" rx="14"/>
+
+<!-- 标题栏 -->
+<rect x="0" y="0" width="900" height="38" rx="14" fill="#132232"/>
+<rect x="0" y="20" width="900" height="18" fill="#132232"/>
+<text x="450" y="25" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">豆一量化决策流程图 v6.1 · AM · 2026-06-12 09:38:38</text>
+
+<!-- ═══════ STEP 1: 市场状态判定 ═══════ -->
+<rect x="20" y="50" width="860" height="92" rx="10" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.2"/>
+<text x="40" y="70" fill="#64748b" font-size="11" font-weight="bold">STEP 1  ·  市场状态判定  (技术30% + (基本面+政策+季节性)70%)</text>
+
+<!-- 4个判定子框 -->
+<rect x="32" y="80" width="195" height="52" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="129" y="98" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">📐 技术面 · 30%</text>
+<text x="129" y="118" text-anchor="middle" fill="#94a3b8" font-size="8">ADX=12 带宽=4.1% DI差=5</text>
+
+<rect x="238" y="80" width="195" height="52" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="335" y="98" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="bold">🌍 基本面 · 含在70%</text>
+<text x="335" y="118" text-anchor="middle" fill="#94a3b8" font-size="8">库存885.01万吨 到港1150万 基差-149</text>
+
+<rect x="444" y="80" width="195" height="52" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="541" y="98" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="bold">📋 政策面 · 含在70%</text>
+<text x="541" y="118" text-anchor="middle" fill="#94a3b8" font-size="8">补贴350元/亩 一号文件利多</text>
+
+<rect x="650" y="80" width="210" height="52" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="755" y="98" text-anchor="middle" fill="#2dd4bf" font-size="10" font-weight="bold">📅 季节性 · 含在70%</text>
+<text x="755" y="118" text-anchor="middle" fill="#94a3b8" font-size="8">6月中性季节，关注天气驱动</text>
+
+<!-- 判定结果 -->
+<path d="M 450 142 L 450 162" class="arrow"/>
+<polygon points="444,158 450,168 456,158" class="arrow-head"/>
+
+<rect x="290" y="165" width="320" height="44" rx="10" fill="#f59e0b10" stroke="#f59e0b" stroke-width="2"/>
+<text x="450" y="184" text-anchor="middle" fill="#f59e0b" font-size="15" font-weight="bold">🟡 震荡行情</text>
+<text x="450" y="201" text-anchor="middle" fill="#e0e0e0" font-size="10">宽幅震荡 · 多头↑ · ADX=12 · 综合=+14.3</text>
+
+<!-- 分叉线 (美化箭头) -->
+<path d="M 450 209 L 450 228" class="arrow"/>
+<path d="M 130 228 L 450 246 L 770 228" class="arrow"/>
+<polygon points="124,228 130,224 130,232" class="arrow-head"/>
+<polygon points="776,228 770,224 770,232" class="arrow-head"/>
+<text x="450" y="242" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">双分支决策</text>
+
+<!-- ═══════ STEP 2: 分支A - 震荡 ═══════ -->
+<rect x="20" y="252" width="420" height="210" rx="14" fill="url(#gA2)" stroke="#f59e0b" stroke-width="2"/>
+<rect x="20" y="252" width="420" height="32" rx="14" fill="#f59e0b08"/>
+<rect x="20" y="270" width="420" height="14" fill="#f59e0b08"/>
+<text x="230" y="274" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold">🟡 分支A · 震荡行情</text>
+
+<!-- 权重标签 -->
+<rect x="280" y="256" width="148" height="20" rx="10" fill="#f59e0b20" stroke="#f59e0b" stroke-width="0.5"/>
+<text x="354" y="270" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="bold">技术面70% + 基本面30%</text>
+
+<!-- 技术面70% -->
+<rect x="32" y="294" width="190" height="112" rx="8" fill="#132232" stroke="#f59e0b" stroke-width="0.8"/>
+<text x="127" y="314" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">技术面要素 · 70%</text>
+<text x="44" y="333" fill="#94a3b8" font-size="9">▸ 布林带位置(上下轨偏离)</text>
+<text x="44" y="349" fill="#94a3b8" font-size="9">▸ RSI超买/超卖信号</text>
+<text x="44" y="365" fill="#94a3b8" font-size="9">▸ MA均线偏离程度</text>
+<text x="44" y="381" fill="#94a3b8" font-size="9">▸ 量价背离检测</text>
+<text x="44" y="397" fill="#94a3b8" font-size="9">▸ 波动率收敛/发散</text>
+
+<!-- 基本面30% -->
+<rect x="238" y="294" width="188" height="112" rx="8" fill="#132232" stroke="#60a5fa" stroke-width="0.8"/>
+<text x="332" y="314" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="bold">基本面要素 · 30%</text>
+<text x="250" y="333" fill="#94a3b8" font-size="9">▸ 持仓结构确认</text>
+<text x="250" y="349" fill="#94a3b8" font-size="9">▸ 现货基差辅助</text>
+<text x="250" y="365" fill="#94a3b8" font-size="9">▸ 政策底约束</text>
+<text x="250" y="381" fill="#94a3b8" font-size="9">▸ 库存压力判断</text>
+<text x="250" y="397" fill="#94a3b8" font-size="9">▸ 消息面辅助</text>
+
+<text x="230" y="422" text-anchor="middle" fill="#fbbf24" font-size="9">策略: 均值回归 · 逆势 · 轻仓(0.5%-3%) · 宽止损窄止盈</text>
+
+<!-- ═══════ STEP 2: 分支B - 趋势 ═══════ -->
+<rect x="460" y="252" width="420" height="210" rx="14" fill="url(#gB2)" stroke="#3b82f6" stroke-width="2"/>
+<rect x="460" y="252" width="420" height="32" rx="14" fill="#3b82f608"/>
+<rect x="460" y="270" width="420" height="14" fill="#3b82f608"/>
+<text x="670" y="274" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold">🔵 分支B · 趋势行情</text>
+
+<rect x="720" y="256" width="148" height="20" rx="10" fill="#3b82f620" stroke="#3b82f6" stroke-width="0.5"/>
+<text x="794" y="270" text-anchor="middle" fill="#60a5fa" font-size="9" font-weight="bold">技术面30% + 基本面70%</text>
+
+<rect x="472" y="294" width="190" height="112" rx="8" fill="#132232" stroke="#3b82f6" stroke-width="0.8"/>
+<text x="567" y="314" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="bold">基本面要素 · 70%</text>
+<text x="484" y="333" fill="#94a3b8" font-size="9">▸ 库存+进口方向(25%)</text>
+<text x="484" y="349" fill="#94a3b8" font-size="9">▸ 中储粮政策信号(15%)</text>
+<text x="484" y="365" fill="#94a3b8" font-size="9">▸ 现货基差方向(15%)</text>
+<text x="484" y="381" fill="#94a3b8" font-size="9">▸ 美豆+持仓传导(15%)</text>
+<text x="484" y="397" fill="#94a3b8" font-size="9">▸ 政策+季节性(10%)</text>
+
+<rect x="678" y="294" width="188" height="112" rx="8" fill="#132232" stroke="#fbbf24" stroke-width="0.8"/>
+<text x="772" y="314" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">技术面要素 · 30%</text>
+<text x="690" y="333" fill="#94a3b8" font-size="9">▸ MA趋势排列确认</text>
+<text x="690" y="349" fill="#94a3b8" font-size="9">▸ MACD金叉/死叉</text>
+<text x="690" y="365" fill="#94a3b8" font-size="9">▸ RSI强弱判断</text>
+<text x="690" y="381" fill="#94a3b8" font-size="9">▸ ADX趋势强度</text>
+<text x="690" y="397" fill="#94a3b8" font-size="9">▸ 成交量配合</text>
+
+<text x="670" y="422" text-anchor="middle" fill="#60a5fa" font-size="9">策略: 顺趋势 · 金字塔加仓 · 正常仓(2%-10%) · 移动止损</text>
+
+<!-- 激活高亮框 (美化虚线) -->
+<rect x="20" y="252" width="420" height="210" class="active"/>
+<text x="230" y="470" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">▶ 当前激活路径</text>
+
+<!-- ═══════ STEP 3: 交易决策输出 (v6.1: 信号移入此步) ═══════ -->
+<path d="M 230 465 L 230 482" class="arrow"/>
+<path d="M 670 465 L 670 482" class="arrow"/>
+<line x1="230" y1="482" x2="670" y2="482" class="arrow"/>
+<line x1="450" y1="482" x2="450" y2="500" class="arrow"/>
+<polygon points="444,496 450,506 456,496" class="arrow-head"/>
+
+<!-- 决策输出大框 -->
+<rect x="20" y="505" width="860" height="130" rx="12" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.5"/>
+<text x="40" y="526" fill="#64748b" font-size="11" font-weight="bold">STEP 3  ·  交易决策输出</text>
+
+<!-- 信号框 (美化边框+渐变) -->
+<rect x="32" y="536" width="194" height="88" rx="10" fill="#64748b12" stroke="#64748b" stroke-width="1.8"/>
+<text x="129" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">交易信号</text>
+<text x="129" y="586" text-anchor="middle" fill="#64748b" font-size="22" font-weight="bold">观望</text>
+<text x="129" y="608" text-anchor="middle" fill="#64748b" font-size="8">置信度:45% | 评分:+0.0</text>
+
+<!-- 仓位框 -->
+<rect x="236" y="536" width="140" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="306" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">建议仓位</text>
+<text x="306" y="586" text-anchor="middle" fill="#fbbf24" font-size="20" font-weight="bold">0.3%</text>
+<text x="306" y="608" text-anchor="middle" fill="#64748b" font-size="8">轻仓 · 0.1万</text>
+
+<!-- 置信度框 -->
+<rect x="386" y="536" width="120" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="446" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">置信度</text>
+<text x="446" y="586" text-anchor="middle" fill="#60a5fa" font-size="20" font-weight="bold">45%</text>
+<text x="446" y="608" text-anchor="middle" fill="#64748b" font-size="8">✅ 通过</text>
+
+<!-- 风险框 -->
+<rect x="516" y="536" width="140" height="88" rx="10" fill="#ef444412" stroke="#ef4444" stroke-width="1.5"/>
+<text x="586" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">风险等级</text>
+<text x="586" y="586" text-anchor="middle" fill="#ef4444" font-size="20" font-weight="bold">HIGH</text>
+<text x="586" y="608" text-anchor="middle" fill="#64748b" font-size="8">3个风险项</text>
+
+<!-- 止损止盈框 -->
+<rect x="666" y="536" width="200" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="766" y="558" text-anchor="middle" fill="#f87171" font-size="11">止损: 0 元/t</text>
+<text x="766" y="578" text-anchor="middle" fill="#34d399" font-size="11">止盈: 0 元/t</text>
+<text x="766" y="600" text-anchor="middle" fill="#64748b" font-size="8">决策依据:</text>
+<text x="676" y="613" fill="#94a3b8" font-size="7">· [基本30%] 持仓偏空→限制做多空间</text>
+
+<!-- ═══════ 底部参考 ═══════ -->
+<rect x="20" y="648" width="860" height="58" rx="10" fill="#132232" stroke="#1e3a5f" stroke-width="0.5"/>
+<text x="450" y="668" text-anchor="middle" fill="#64748b" font-size="9">决策引擎: 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</text>
+<text x="450" y="684" text-anchor="middle" fill="#94a3b8" font-size="9">市场判定: 技术30%+(基本+政策+季节)70% | 四因子: 宏观35% > 政策30% > 季节20% > 技术15%</text>
+<text x="450" y="698" text-anchor="middle" fill="#64748b" font-size="8">参考模型: 方正中期 · 华泰期货 · 国都期货 · 国泰君安 · 同花顺COT · 国家粮食交易中心</text>
+
+<text x="870" y="750" text-anchor="end" fill="#334155" font-size="8">v6.1 · 2026-06-12 09:38:38</text>
+</svg>
+  </div>
+</div>
+
+<!-- ====== 底部 ====== -->
+<div style="text-align:center;padding:20px;color:#334155;font-size:10px">
+  豆一量化模型 v6.1 · 构建于成熟研究框架之上 · 可分享部署版 · 2026-06-12 09:38:38<br>
+  数据源: 生意社 + 同花顺 + 饲料信息网 + 内蒙古粮食局 + 国家粮食交易中心 + 农业农村部<br>
+  免责声明: 本模型仅供研究参考，不构成投资建议。期货交易风险自负。
+</div>
+
+</div></body></html>
