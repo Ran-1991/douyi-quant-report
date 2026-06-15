@@ -42,7 +42,6 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 .policy-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:10px;margin:6px 0}
 .policy-title{font-size:12px;color:#60a5fa;font-weight:bold;margin-bottom:4px}
 .policy-text{font-size:11px;color:#94a3b8;line-height:1.5}
-.basis-display{display:inline-flex;align-items:center;padding:6px 14px;background:#f8717115;border:1px solid #f8717140;border-radius:8px;margin:8px 0}
 .seasonal-card{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:10px;margin:6px 0}
 .seasonal-title{font-size:12px;font-weight:bold;margin-bottom:4px}
 .news-item{padding:8px 10px;border-bottom:1px solid #1a2d44;font-size:11px;line-height:1.5}
@@ -64,7 +63,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <!-- ====== 头部 ====== -->
 <div class="header">
   <h1>🌱 豆一量化研究模型 v6.1</h1>
-  <div class="sub">AM · 2026-06-12 09:46:28 · 可分享部署版
+  <div class="sub">AM · 2026-06-12 13:38:06 · 可分享部署版
     <span class="ref-badge">方正中期</span><span class="ref-badge">华泰期货</span><span class="ref-badge">国泰君安</span>
   </div>
 </div>
@@ -93,23 +92,10 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
   </div>
 </div>
 
-<!-- ====== ② 综合基本面仪表盘 + 基差显示 ====== -->
+<!-- ====== ② 综合基本面仪表盘 ====== -->
 <div class="card">
   <div class="card-title">🌾 综合基本面仪表盘
     <span class="ref-badge">生意社</span><span class="ref-badge">饲料信息网</span><span class="ref-badge">农业农村部</span>
-  </div>
-
-  <!-- 基差区域 (v6.1 新增) -->
-  <div style="text-align:center;margin-bottom:12px">
-    <div class="basis-display">
-      <span style="font-size:12px;color:#94a3b8">📐 基差</span>
-      <span style="font-size:20px;font-weight:bold;color:#f87171;margin:0 10px">-149 元/吨</span>
-      <span class="tag tr">贴水</span>
-    </div>
-    <div style="font-size:10px;color:#475569;margin-top:4px">
-      基差 = 现货均价(4609元) - 期货价格(4758元)
-      → 期货高估，现货贴水
-    </div>
   </div>
 
   <!-- 现货+进口+国际 -->
@@ -211,6 +197,62 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
     </div>
     <div style="font-size:10px;color:#64748b;margin-top:6px;line-height:1.4">最新: 2026-06-11 购销双向51,644吨成交率100%，销售底价4500/4700元/吨，采购底价4650/4920元/吨，成交均价4551元/吨。购销双向将卖出陈豆与买入新豆绑定，降低流拍风险，4650元/吨为采购价(买入新豆)，4500元/吨为销售价(卖出陈豆)。</div>
   </div>
+
+  <!-- 期现关系子面板 (v6.1: 现货价格+基差+远月结构+期现分析) -->
+  <div style="margin-top:14px;padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #60a5fa">
+    <div style="font-size:13px;color:#60a5fa;font-weight:bold;margin-bottom:8px">📊 期现关系</div>
+
+    <!-- 产区现货 -->
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;color:#fbbf24;font-weight:bold;margin-bottom:6px">🏭 产区现货 · 出库均价</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#34d399">4508<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">黑龙江</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#34d399">4480<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">内蒙古</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#34d399">4750<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">安徽</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#34d399">4700<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">河南</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div>
+      </div>
+    </div>
+
+    <!-- 销区现货 -->
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;color:#60a5fa;font-weight:bold;margin-bottom:6px">🏪 销区现货 · 到厂均价</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#60a5fa">4850<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">山东</div><div style="font-size:8px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#60a5fa">4820<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">江苏</div><div style="font-size:8px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#60a5fa">4900<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">广东</div><div style="font-size:8px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#60a5fa">4950<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">四川</div><div style="font-size:8px;color:#475569;margin-top:2px">到厂均价</div></div>
+      </div>
+    </div>
+
+    <!-- 蛋白等级价差 -->
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;color:#a78bfa;font-weight:bold;margin-bottom:6px">🧬 蛋白等级价差 · 出库均价</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#f87171">4900<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">高蛋白(≥39%)</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#fbbf24">4600<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">中蛋白(36-38%)</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:14px;font-weight:bold;color:#60a5fa">4300<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:9px;color:#64748b">低蛋白(≤35%)</div><div style="font-size:8px;color:#475569;margin-top:2px">出库均价</div></div>
+      </div>
+    </div>
+
+    <!-- 基差+远月+价差摘要 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <!-- 基差 -->
+      <div style="text-align:center;padding:10px;background:#0f1923;border-radius:8px">
+        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">基差(产区出库均价-期货收盘)</div>
+        <div style="font-size:18px;font-weight:bold;color:#f87171">-149<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div>
+        <span class="tag tr" style="font-size:9px">贴水</span>
+      </div>
+      <!-- 产销价差 -->
+      <div style="text-align:center;padding:10px;background:#0f1923;border-radius:8px">
+        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">产销均价差(销区-产区)</div>
+        <div style="font-size:18px;font-weight:bold;color:#fbbf24">+271<span style="font-size:9px;font-weight:normal;color:#64748b"> 元/吨</span></div>
+        <div style="font-size:9px;color:#64748b;margin-top:2px">含运费+贸易利润</div>
+      </div>
+      <!-- 远月结构 -->
+      <div style="text-align:center;padding:10px;background:#0f1923;border-radius:8px">
+        <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">远月结构(近月-远月)</div>
+        <div style="font-size:18px;font-weight:bold;color:#a78bfa"></div>
+        <div style="font-size:9px;color:#64748b;margin-top:2px">结构正常</div>
+      </div>
+    </div>
+
+    <!-- 期现分析文字 -->
+    <div style="font-size:11px;color:#94a3b8;line-height:1.6;padding:8px;background:#0f1923;border-radius:6px">
+      基差-149元/吨（产区出库均价4609-期货收盘4758），期货轻度贴水，期现价差在合理区间，反映一定的持仓成本。产区出库均价差270元/吨，安徽出库均价4750略高于内蒙古出库均价4480，区域价差正常。产销价差271元/吨（销区到厂均价-产区出库均价），销区正常溢价，含运输和贸易利润。高蛋白出库均价4900元与低蛋白出库均价4300元价差600元/吨，蛋白溢价显著，优质豆源偏紧。国产豆产区出库均价4609元与进口豆到港成本3830元价差779元/吨，进口优势显著，压制国产豆上方空间。
+    </div>
+  </div>
 </div>
 
 <!-- ====== 季节性分析 ====== -->
@@ -276,21 +318,21 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
     <div style="font-size:12px;color:#60a5fa;font-weight:bold;margin-bottom:8px">📈 持仓结构分析 · 前20机构COT</div>
     <div class="grid2">
       <div>
-        <div class="info-row"><span class="info-label">数据日期</span><span class="info-value">2026-06-03</span></div>
-        <div class="info-row"><span class="info-label">多单(前20)</span><span class="info-value">35.14 万手</span></div>
-        <div class="info-row"><span class="info-label">空单(前20)</span><span class="info-value">40.5 万手</span></div>
-        <div class="info-row"><span class="info-label">多空比</span><span class="info-value" style="color:#f87171">0.87</span></div>
-        <div class="info-row"><span class="info-label">净持仓</span><span class="info-value" style="color:#f87171">-5.36 万手</span></div>
-        <div class="info-row"><span class="info-label">净持仓变化</span><span class="info-value">-0.98 万手</span></div>
+        <div class="info-row"><span class="info-label">数据日期</span><span class="info-value">2026-06-11</span></div>
+        <div class="info-row"><span class="info-label">多单(前20)</span><span class="info-value">34.85 万手</span></div>
+        <div class="info-row"><span class="info-label">空单(前20)</span><span class="info-value">39.7 万手</span></div>
+        <div class="info-row"><span class="info-label">多空比</span><span class="info-value" style="color:#f87171">0.88</span></div>
+        <div class="info-row"><span class="info-label">净持仓</span><span class="info-value" style="color:#f87171">-4.85 万手</span></div>
+        <div class="info-row"><span class="info-label">净持仓变化</span><span class="info-value">-0.54 万手</span></div>
       </div>
       <div>
         <div style="font-size:11px;color:#94a3b8;margin-bottom:4px">净多头TOP3:</div>
-        <div style="font-size:11px;margin:3px 0;color:#34d399">▸ 东证期货: +9,886手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 浙商期货: +8,237手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 国泰君安: +7,737手</div>
+        <div style="font-size:11px;margin:3px 0;color:#34d399">▸ 东证期货: +8,638手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 浙商期货: +8,164手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 国泰君安: +7,466手</div>
         <div style="font-size:11px;color:#94a3b8;margin-top:6px;margin-bottom:4px">净空头TOP3:</div>
-        <div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中信期货: -9,843手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 首创期货: -9,082手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中泰期货: -8,907手</div>
+        <div style="font-size:11px;margin:3px 0;color:#f87171">▸ 高盛(GS)期货: -7,544手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中泰期货: -6,477手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 银河期货: -5,744手</div>
       </div>
     </div>
-    <div style="font-size:10px;color:#fbbf24;margin-top:4px">· 前20多空比0.87，机构偏空</div><div style="font-size:10px;color:#fbbf24;margin-top:4px">· 净空头增0.98万手，空头加仓</div>
+    <div style="font-size:10px;color:#fbbf24;margin-top:4px">· 前20多空比0.88，机构偏空</div><div style="font-size:10px;color:#fbbf24;margin-top:4px">· 净空头增0.54万手，空头加仓</div>
   </div>
 
   <!-- K线与技术图形 -->
@@ -369,6 +411,13 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
     <div style="background:#0a1628;border-radius:8px;overflow:hidden">
       <div class="news-item">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <span style="font-weight:bold;color:#e0e0e0">农产品 | 继续挤升水 生猪盘面偏弱</span>
+    <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:8px">2026-06-12</span>
+  </div>
+  <div style="font-size:10px;color:#94a3b8">其将阿根廷2025/26年度大豆作物的产量预估从上月的4,800万吨上调至5,000万吨。7月大豆期货合约下跌8.00美分或0.71%，最新报每蒲式耳11.15美元。夜盘连粕窄幅震荡收涨，多空资金离场加快，主力合约持仓继续下降。</div>
+  <div style="font-size:9px;color:#475569;margin-top:2px">来源: 国信期货</div>
+</div><div class="news-item">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
     <span style="font-weight:bold;color:#e0e0e0">CBOT农产品期货主力合约收盘多数上涨，大豆期货涨0.90%</span>
     <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:8px">2026-06-11</span>
   </div>
@@ -393,7 +442,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
     </div>
     <div style="margin-top:6px">
       <span class="tag tb">情绪: neutral</span>
-      <span class="tag tb">国产供应</span><span class="tag tb">进口到港</span><span class="tag tb">其他</span><span class="tag tb">政策收储</span>
+      <span class="tag tb">政策收储</span><span class="tag tb">进口到港</span><span class="tag tb">其他</span><span class="tag tb">国产供应</span>
     </div>
   </div>
 
@@ -627,7 +676,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
     <span class="tag ty">当前激活: 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</span>
   </div>
   <div class="flowchart-container">
-    <svg viewBox="0 0 900 780" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg">
 <style>
   text { font-family: "Microsoft YaHei","PingFang SC",sans-serif; }
   .box-a { fill:#132232; stroke:#f59e0b; stroke-width:1.5; rx:8 }
@@ -641,6 +690,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
   .arrow { stroke:#64748b; stroke-width:1.2; fill:none }
   .arrow-head { fill:#64748b }
   .active { fill:none; stroke:#f59e0b; stroke-width:3; stroke-dasharray:8,4; rx:12 }
+  .risk-cell { fill:#0a1628; stroke:#334155; stroke-width:0.8; rx:4 }
 </style>
 <defs>
   <linearGradient id="gA2" x1="0" y1="0" x2="1" y2="1">
@@ -652,14 +702,19 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
   <linearGradient id="gRes" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.3"/><stop offset="100%" stop-color="#0a1628" stop-opacity="0.6"/>
   </linearGradient>
+  <linearGradient id="gRisk" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8"/><stop offset="100%" stop-color="#0f1923" stop-opacity="0.9"/>
+  </linearGradient>
   <filter id="glow2"><feGaussianBlur stdDeviation="2"/></filter>
+  <filter id="shadow1"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/></filter>
 </defs>
-<rect width="900" height="780" fill="#0f1923" rx="14"/>
+<rect width="900" height="1200" fill="#0f1923" rx="14"/>
 
-<!-- 标题栏 -->
-<rect x="0" y="0" width="900" height="38" rx="14" fill="#132232"/>
-<rect x="0" y="20" width="900" height="18" fill="#132232"/>
-<text x="450" y="25" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">豆一量化决策流程图 v6.1 · AM · 2026-06-12 09:46:28</text>
+<!-- 标题栏(增强) -->
+<rect x="0" y="0" width="900" height="42" rx="14" fill="#132232"/>
+<rect x="0" y="22" width="900" height="20" fill="#132232"/>
+<text x="450" y="27" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">豆一量化决策流程图 v6.1 · AM · 2026-06-12 13:38:06</text>
+<rect x="20" y="34" width="860" height="1" fill="#1e3a5f" opacity="0.5"/>
 
 <!-- ═══════ STEP 1: 市场状态判定 ═══════ -->
 <rect x="20" y="50" width="860" height="92" rx="10" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.2"/>
@@ -758,7 +813,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <rect x="20" y="252" width="420" height="210" class="active"/>
 <text x="230" y="470" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">▶ 当前激活路径</text>
 
-<!-- ═══════ STEP 3: 交易决策输出 (v6.1: 信号移入此步) ═══════ -->
+<!-- ═══════ STEP 3: 交易决策输出 (增强版) ═══════ -->
 <path d="M 230 465 L 230 482" class="arrow"/>
 <path d="M 670 465 L 670 482" class="arrow"/>
 <line x1="230" y1="482" x2="670" y2="482" class="arrow"/>
@@ -766,54 +821,191 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <polygon points="444,496 450,506 456,496" class="arrow-head"/>
 
 <!-- 决策输出大框 -->
-<rect x="20" y="505" width="860" height="130" rx="12" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.5"/>
+<rect x="20" y="505" width="860" height="148" rx="12" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.5"/>
 <text x="40" y="526" fill="#64748b" font-size="11" font-weight="bold">STEP 3  ·  交易决策输出</text>
 
-<!-- 信号框 (美化边框+渐变) -->
-<rect x="32" y="536" width="194" height="88" rx="10" fill="#64748b12" stroke="#64748b" stroke-width="1.8"/>
-<text x="129" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">交易信号</text>
-<text x="129" y="586" text-anchor="middle" fill="#64748b" font-size="22" font-weight="bold">观望</text>
-<text x="129" y="608" text-anchor="middle" fill="#64748b" font-size="8">置信度:45% | 评分:+0.0</text>
+<!-- 信号框 (增强) -->
+<rect x="32" y="536" width="150" height="106" rx="10" fill="#64748b12" stroke="#64748b" stroke-width="1.8"/>
+<text x="107" y="558" text-anchor="middle" fill="#94a3b8" font-size="10">交易信号</text>
+<text x="107" y="586" text-anchor="middle" fill="#64748b" font-size="20" font-weight="bold">观望</text>
+<text x="107" y="610" text-anchor="middle" fill="#64748b" font-size="8">置信度:45% | 评分:+0.0</text>
+<text x="107" y="628" text-anchor="middle" fill="#475569" font-size="7">信号=HOLD</text>
 
-<!-- 仓位框 -->
-<rect x="236" y="536" width="140" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
-<text x="306" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">建议仓位</text>
-<text x="306" y="586" text-anchor="middle" fill="#fbbf24" font-size="20" font-weight="bold">0.3%</text>
-<text x="306" y="608" text-anchor="middle" fill="#64748b" font-size="8">轻仓 · 0.1万</text>
+<!-- 仓位框 (增强ATR单位) -->
+<rect x="192" y="536" width="138" height="106" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="261" y="555" text-anchor="middle" fill="#94a3b8" font-size="10">建议仓位</text>
+<text x="261" y="580" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="bold">0.3%</text>
+<text x="261" y="598" text-anchor="middle" fill="#64748b" font-size="8">轻仓 · 0.1万</text>
+<text x="261" y="614" text-anchor="middle" fill="#94a3b8" font-size="7">ATR单位: 13手</text>
+<text x="261" y="628" text-anchor="middle" fill="#475569" font-size="7">1手=746元风险</text>
 
-<!-- 置信度框 -->
-<rect x="386" y="536" width="120" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
-<text x="446" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">置信度</text>
-<text x="446" y="586" text-anchor="middle" fill="#60a5fa" font-size="20" font-weight="bold">45%</text>
-<text x="446" y="608" text-anchor="middle" fill="#64748b" font-size="8">✅ 通过</text>
+<!-- 止损止盈框 (增强) -->
+<rect x="340" y="536" width="156" height="106" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="418" y="555" text-anchor="middle" fill="#94a3b8" font-size="10">止损止盈 · ATR×2</text>
+<text x="418" y="578" text-anchor="middle" fill="#f87171" font-size="12">止损: 0 元/吨</text>
+<text x="418" y="598" text-anchor="middle" fill="#34d399" font-size="12">止盈: 0 元/吨</text>
+<text x="418" y="616" text-anchor="middle" fill="#64748b" font-size="7">盈亏比: 1.0:1</text>
+<text x="418" y="632" text-anchor="middle" fill="#475569" font-size="7">ATR=75 · 回到布林中轨即平仓</text>
 
-<!-- 风险框 -->
-<rect x="516" y="536" width="140" height="88" rx="10" fill="#ef444412" stroke="#ef4444" stroke-width="1.5"/>
-<text x="586" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">风险等级</text>
-<text x="586" y="586" text-anchor="middle" fill="#ef4444" font-size="20" font-weight="bold">HIGH</text>
-<text x="586" y="608" text-anchor="middle" fill="#64748b" font-size="8">3个风险项</text>
+<!-- 风险框 (增强) -->
+<rect x="506" y="536" width="148" height="106" rx="10" fill="#ef444412" stroke="#ef4444" stroke-width="1.5"/>
+<text x="580" y="555" text-anchor="middle" fill="#94a3b8" font-size="10">风险等级</text>
+<text x="580" y="580" text-anchor="middle" fill="#ef4444" font-size="20" font-weight="bold">HIGH</text>
+<text x="580" y="600" text-anchor="middle" fill="#64748b" font-size="8">3个风险项</text>
+<text x="580" y="616" text-anchor="middle" fill="#94a3b8" font-size="7">最大回撤: 3%</text>
+<text x="580" y="630" text-anchor="middle" fill="#94a3b8" font-size="7">日亏损限: 1%</text>
 
-<!-- 止损止盈框 -->
-<rect x="666" y="536" width="200" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
-<text x="766" y="558" text-anchor="middle" fill="#f87171" font-size="11">止损: 0 元/t</text>
-<text x="766" y="578" text-anchor="middle" fill="#34d399" font-size="11">止盈: 0 元/t</text>
-<text x="766" y="600" text-anchor="middle" fill="#64748b" font-size="8">决策依据:</text>
-<text x="676" y="613" fill="#94a3b8" font-size="7">· [基本30%] 持仓偏空→限制做多空间</text>
+<!-- 决策依据框 -->
+<rect x="664" y="536" width="204" height="106" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
+<text x="766" y="555" text-anchor="middle" fill="#94a3b8" font-size="10">决策依据</text>
+<text x="674" y="572" fill="#94a3b8" font-size="8">· [基本30%] 持仓偏空→限制做多空间</text>
+
+<!-- ═══════ 箭头连接到STEP 4 ═══════ -->
+<path d="M 450 654 L 450 672" class="arrow"/>
+<polygon points="444,668 450,678 456,668" class="arrow-head"/>
+
+<!-- ═══════ STEP 4: 仓位管理 & 风控标准 ═══════ -->
+<rect x="20" y="678" width="860" height="250" rx="12" fill="url(#gRisk)" stroke="#334155" stroke-width="1.5"/>
+<text x="40" y="700" fill="#64748b" font-size="11" font-weight="bold">STEP 4  ·  仓位管理 & 风控标准  (参考: 海龟法则 / 凯利公式 / ATR止损)</text>
+
+<!-- ─── 4A: 仓位计算 ─── -->
+<rect x="32" y="712" width="270" height="200" rx="8" fill="#0a1628" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="167" y="732" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="bold">📐 仓位计算模型</text>
+<line x1="42" y1="738" x2="292" y2="738" stroke="#1e3a5f" stroke-width="0.5"/>
+
+<!-- 海龟ATR仓位 -->
+<text x="42" y="756" fill="#fbbf24" font-size="9" font-weight="bold">▸ 海龟ATR仓位</text>
+<text x="52" y="770" fill="#94a3b8" font-size="8">单位= 账户×风险率 / (ATR×乘数)</text>
+<text x="52" y="784" fill="#94a3b8" font-size="8">= 50万×2% / (75×10)</text>
+<text x="52" y="798" fill="#fbbf24" font-size="9" font-weight="bold">= 13手/单位</text>
+
+<!-- 凯利公式 -->
+<text x="42" y="818" fill="#a78bfa" font-size="9" font-weight="bold">▸ 凯利公式参考</text>
+<text x="52" y="832" fill="#94a3b8" font-size="8">f* = (bp - q) / b</text>
+<text x="52" y="846" fill="#94a3b8" font-size="8">理论仓位: 0.0% (半凯利: 0.0%)</text>
+
+<!-- 当前建议 -->
+<text x="42" y="866" fill="#2dd4bf" font-size="9" font-weight="bold">▸ 当前建议</text>
+<text x="52" y="880" fill="#94a3b8" font-size="8">仓位: 0.3% (轻仓)</text>
+<text x="52" y="894" fill="#94a3b8" font-size="8">资金: 0.1万元</text>
+<text x="52" y="908" fill="#64748b" font-size="7">* 实际仓位取min(ATR仓位,凯利仓位,风控上限)</text>
+
+<!-- ─── 4B: 加仓规则 ─── -->
+<rect x="312" y="712" width="270" height="200" rx="8" fill="#0a1628" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="447" y="732" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="bold">📊 加仓 & 金字塔规则</text>
+<line x1="322" y1="738" x2="572" y2="738" stroke="#1e3a5f" stroke-width="0.5"/>
+
+<!-- 金字塔 -->
+<text x="322" y="756" fill="#fbbf24" font-size="9" font-weight="bold">▸ 金字塔加仓</text>
+<text x="332" y="770" fill="#94a3b8" font-size="8">最大加仓次数: 2次</text>
+<text x="332" y="784" fill="#94a3b8" font-size="8">加仓规则: 每偏离布林中轨1%加1/3仓</text>
+<text x="332" y="798" fill="#94a3b8" font-size="8">每次加仓量: 递减(1→3/4→1/2→1/4)</text>
+<text x="332" y="812" fill="#64748b" font-size="7">* 趋势行情最多4次,震荡最多2次</text>
+
+<!-- 移动止损 -->
+<text x="322" y="832" fill="#f87171" font-size="9" font-weight="bold">▸ 追踪止损规则</text>
+<text x="332" y="846" fill="#94a3b8" font-size="8">震荡: 回到布林中轨即平</text>
+<text x="332" y="860" fill="#94a3b8" font-size="8">止损距离: 149元/吨(3.1%)</text>
+
+<!-- 分批止盈 -->
+<text x="322" y="880" fill="#34d399" font-size="9" font-weight="bold">▸ 分批止盈</text>
+<text x="332" y="894" fill="#94a3b8" font-size="8">1/3仓位@1.5ATR | 1/3@2.5ATR | 1/3@趋势结束</text>
+<text x="332" y="908" fill="#64748b" font-size="7">* 震荡行情一次性止盈</text>
+
+<!-- ─── 4C: 风控标准矩阵 ─── -->
+<rect x="592" y="712" width="276" height="200" rx="8" fill="#0a1628" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="730" y="732" text-anchor="middle" fill="#f87171" font-size="10" font-weight="bold">🛡️ 风控标准矩阵</text>
+<line x1="602" y1="738" x2="858" y2="738" stroke="#1e3a5f" stroke-width="0.5"/>
+
+<!-- 风控表头 -->
+<rect x="602" y="746" width="256" height="18" rx="3" fill="#1e293b"/>
+<text x="632" y="758" fill="#94a3b8" font-size="8" font-weight="bold">风控项</text>
+<text x="722" y="758" fill="#94a3b8" font-size="8" font-weight="bold">标准</text>
+<text x="822" y="758" fill="#94a3b8" font-size="8" font-weight="bold">当前值</text>
+
+<!-- 行1: 最大回撤 -->
+<rect x="602" y="766" width="256" height="16" rx="2" fill="#0f1923"/>
+<text x="612" y="778" fill="#94a3b8" font-size="8">最大回撤</text>
+<text x="712" y="778" fill="#fbbf24" font-size="8">3%</text>
+<text x="812" y="778" fill="#94a3b8" font-size="8">HIGH</text>
+
+<!-- 行2: 日亏损 -->
+<rect x="602" y="784" width="256" height="16" rx="2" fill="#0a1628"/>
+<text x="612" y="796" fill="#94a3b8" font-size="8">日亏损限额</text>
+<text x="712" y="796" fill="#fbbf24" font-size="8">1%</text>
+<text x="812" y="796" fill="#94a3b8" font-size="8">0.3%仓</text>
+
+<!-- 行3: 单笔风险 -->
+<rect x="602" y="802" width="256" height="16" rx="2" fill="#0f1923"/>
+<text x="612" y="814" fill="#94a3b8" font-size="8">单笔风险</text>
+<text x="712" y="814" fill="#fbbf24" font-size="8">≤2%本金</text>
+<text x="812" y="814" fill="#94a3b8" font-size="8">1.9%</text>
+
+<!-- 行4: 最大持仓 -->
+<rect x="602" y="820" width="256" height="16" rx="2" fill="#0a1628"/>
+<text x="612" y="832" fill="#94a3b8" font-size="8">最大持仓合约</text>
+<text x="712" y="832" fill="#fbbf24" font-size="8">1手</text>
+<text x="812" y="832" fill="#94a3b8" font-size="8">13手/单位</text>
+
+<!-- 行5: 相关性 -->
+<rect x="602" y="838" width="256" height="16" rx="2" fill="#0f1923"/>
+<text x="612" y="850" fill="#94a3b8" font-size="8">相关品种限仓</text>
+<text x="712" y="850" fill="#fbbf24" font-size="8">豆粕+豆油≤6%</text>
+<text x="812" y="850" fill="#94a3b8" font-size="8">豆一独立</text>
+
+<!-- 行6: 流动性 -->
+<rect x="602" y="856" width="256" height="16" rx="2" fill="#0a1628"/>
+<text x="612" y="868" fill="#94a3b8" font-size="8">流动性要求</text>
+<text x="712" y="868" fill="#fbbf24" font-size="8">日成交≥5万手</text>
+<text x="812" y="868" fill="#94a3b8" font-size="8">19万手</text>
+
+<!-- 风险提示 -->
+<rect x="602" y="880" width="256" height="26" rx="4" fill="#ef444408" stroke="#ef4444" stroke-width="0.5"/>
+<text x="730" y="897" text-anchor="middle" fill="#ef4444" font-size="8">⚠ 当前风险等级: HIGH | 3项风险需关注</text>
+
+<!-- ═══════ STEP 5: 执行纪律 ═══════ -->
+<path d="M 450 928 L 450 946" class="arrow"/>
+<polygon points="444,942 450,952 456,942" class="arrow-head"/>
+
+<rect x="20" y="950" width="860" height="120" rx="12" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.2"/>
+<text x="40" y="972" fill="#64748b" font-size="11" font-weight="bold">STEP 5  ·  执行纪律 & 异常处理</text>
+
+<!-- 3列纪律框 -->
+<!-- 左: 执行纪律 -->
+<rect x="32" y="982" width="270" height="78" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.6"/>
+<text x="167" y="998" text-anchor="middle" fill="#2dd4bf" font-size="9" font-weight="bold">📋 执行纪律</text>
+<text x="42" y="1014" fill="#94a3b8" font-size="8">▸ 信号确认后2:30前完成建仓</text>
+<text x="42" y="1028" fill="#94a3b8" font-size="8">▸ 止损价到即执行,不做主观判断</text>
+<text x="42" y="1042" fill="#94a3b8" font-size="8">▸ 每日收盘复盘+参数校验</text>
+
+<!-- 中: 异常熔断 -->
+<rect x="312" y="982" width="270" height="78" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.6"/>
+<text x="447" y="998" text-anchor="middle" fill="#f87171" font-size="9" font-weight="bold">🚨 异常熔断</text>
+<text x="322" y="1014" fill="#94a3b8" font-size="8">▸ 日内亏损超1%→强制平仓</text>
+<text x="322" y="1028" fill="#94a3b8" font-size="8">▸ 跳空超2×ATR→暂停交易1天</text>
+<text x="322" y="1042" fill="#94a3b8" font-size="8">▸ USDA报告日→减仓至1/3或观望</text>
+
+<!-- 右: 定期校准 -->
+<rect x="592" y="982" width="276" height="78" rx="6" fill="#132232" stroke="#1e3a5f" stroke-width="0.6"/>
+<text x="730" y="998" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="bold">🔄 定期校准</text>
+<text x="602" y="1014" fill="#94a3b8" font-size="8">▸ 每周校验市场状态判定结果</text>
+<text x="602" y="1028" fill="#94a3b8" font-size="8">▸ 每月回测四因子权重适配度</text>
+<text x="602" y="1042" fill="#94a3b8" font-size="8">▸ 季度审查风控参数有效性</text>
 
 <!-- ═══════ 底部参考 ═══════ -->
-<rect x="20" y="648" width="860" height="58" rx="10" fill="#132232" stroke="#1e3a5f" stroke-width="0.5"/>
-<text x="450" y="668" text-anchor="middle" fill="#64748b" font-size="9">决策引擎: 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</text>
-<text x="450" y="684" text-anchor="middle" fill="#94a3b8" font-size="9">市场判定: 技术30%+(基本+政策+季节)70% | 四因子: 宏观35% > 政策30% > 季节20% > 技术15%</text>
-<text x="450" y="698" text-anchor="middle" fill="#64748b" font-size="8">参考模型: 方正中期 · 华泰期货 · 国都期货 · 国泰君安 · 同花顺COT · 国家粮食交易中心</text>
+<rect x="20" y="1088" width="860" height="70" rx="10" fill="#132232" stroke="#1e3a5f" stroke-width="0.5"/>
+<text x="450" y="1108" text-anchor="middle" fill="#64748b" font-size="9">决策引擎: 分支A · 震荡行情（决策: 技术面70% + 基本面30%）</text>
+<text x="450" y="1124" text-anchor="middle" fill="#94a3b8" font-size="9">市场判定: 技术30%+(基本+政策+季节)70% | 四因子: 宏观35% > 政策30% > 季节20% > 技术15%</text>
+<text x="450" y="1140" text-anchor="middle" fill="#64748b" font-size="8">参考模型: 海龟交易法则 · 凯利公式 · ATR仓位管理 · 移动止损 · 方正中期 · 华泰期货 · 国泰君安</text>
 
-<text x="870" y="750" text-anchor="end" fill="#334155" font-size="8">v6.1 · 2026-06-12 09:46:28</text>
+<text x="870" y="1170" text-anchor="end" fill="#334155" font-size="8">v6.1 · 2026-06-12 13:38:06</text>
 </svg>
   </div>
 </div>
 
 <!-- ====== 底部 ====== -->
 <div style="text-align:center;padding:20px;color:#334155;font-size:10px">
-  豆一量化模型 v6.1 · 构建于成熟研究框架之上 · 可分享部署版 · 2026-06-12 09:46:28<br>
+  豆一量化模型 v6.1 · 构建于成熟研究框架之上 · 可分享部署版 · 2026-06-12 13:38:06<br>
   数据源: 生意社 + 同花顺 + 饲料信息网 + 内蒙古粮食局 + 国家粮食交易中心 + 农业农村部<br>
   免责声明: 本模型仅供研究参考，不构成投资建议。期货交易风险自负。
 </div>
