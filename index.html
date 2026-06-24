@@ -55,7 +55,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <!-- ====== 头部 ====== -->
 <div class="header">
   <h1>🌱 豆一量化研究模型 v6.1</h1>
-  <div class="sub">AM · 2026-06-24 12:59:12 · 可分享部署版
+  <div class="sub">AM · 2026-06-24 13:13:33 · 可分享部署版
     <span class="ref-badge">方正中期</span><span class="ref-badge">国泰期货</span><span class="ref-badge">2026展望</span>
   </div>
 </div>
@@ -294,6 +294,51 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 </div>
 </div>
 
+<!-- ====== 期现关系子面板 ====== -->
+<!-- 期现关系子面板 (v6.1: 现货价格+基差+远月结构+期现分析) -->
+<div style="margin-top:14px;padding:12px;background:#0a1628;border-radius:8px;border-left:3px solid #60a5fa">
+  <div style="font-size:15px;color:#60a5fa;font-weight:bold;margin-bottom:8px">📊 期现关系</div>
+
+  <!-- 产区现货 (4列网格) -->
+  <div style="margin-bottom:10px">
+    <div style="font-size:13px;color:#fbbf24;font-weight:bold;margin-bottom:6px">🏭 产区现货 · 出库均价</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+<div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#fbbf24">4508<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">黑龙江</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#fbbf24">4480<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">内蒙古</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#fbbf24">4750<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">安徽</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#fbbf24">4700<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">河南</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div>
+    </div>
+  </div>
+
+  <!-- 销区现货 (4列网格) -->
+  <div style="margin-bottom:10px">
+    <div style="font-size:13px;color:#60a5fa;font-weight:bold;margin-bottom:6px">🏪 销区现货 · 到厂均价</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+<div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#60a5fa">4710<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">山东</div><div style="font-size:10px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#60a5fa">4730<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">江苏</div><div style="font-size:10px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#60a5fa">4950<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">广东</div><div style="font-size:10px;color:#475569;margin-top:2px">到厂均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#60a5fa">4980<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">四川</div><div style="font-size:10px;color:#475569;margin-top:2px">到厂均价</div></div>
+    </div>
+  </div>
+
+  <!-- 蛋白等级价差 (3列网格) -->
+  <div style="margin-bottom:10px">
+    <div style="font-size:13px;color:#a78bfa;font-weight:bold;margin-bottom:6px">🧬 蛋白等级价差 · 出库均价</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+<div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#a78bfa">5070<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">高蛋白(≥39%)</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#a78bfa">4440<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">中蛋白(36-38%)</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div><div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#a78bfa">4250<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">低蛋白(≤35%)</div><div style="font-size:10px;color:#475569;margin-top:2px">出库均价</div></div>
+    </div>
+  </div>
+
+  <!-- 基差+产销价差+国产溢价 (3列网格) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+    <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#f87171">-239<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">基差(东北出库均价-期货收盘)</div><div style="font-size:10px;color:#475569;margin-top:2px">期货贴水</div></div>
+    <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#34d399">+233<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">产销均价差(销区-产区)</div><div style="font-size:10px;color:#475569;margin-top:2px">销区均价 4842</div></div>
+    <div style="text-align:center;padding:8px 4px;background:#0f1923;border-radius:6px"><div style="font-size:16px;font-weight:bold;color:#34d399">+882<span style="font-size:11px;font-weight:normal;color:#64748b"> 元/吨</span></div><div style="font-size:11px;color:#64748b">国产溢价(东北-进口)</div><div style="font-size:10px;color:#475569;margin-top:2px">进口成本 3612</div></div>
+  </div>
+
+  <!-- 期现分析文字 -->
+  <div style="font-size:13px;color:#94a3b8;line-height:1.6;padding:8px;background:#0f1923;border-radius:6px">
+    基差现货贴水239元，期货高估。产区价差：安徽最高4750元/吨，内蒙古最低4480元/吨，区域价差270元/吨。产销均价差+233元/吨，蛋白价差：高蛋白溢价820元/吨。国产vs进口：国产溢价882元/吨，进口到港成本约3612元/吨。港口库存885.01万吨，1150万吨到港，供应整体偏宽松。
+  </div>
+</div>
+
+<!-- ====== 季节性分析 (全球天气) ====== -->
+<!-- ====== 季节性分析 ====== --><div class="card">  <div class="card-title">📅 季节性分析 · 产区天气与需求季节性    <span class="ref-badge">Open-Meteo实时天气</span><span class="ref-badge">季节性规律</span>  </div>  <!-- 全球主要种植区天气 -->  <div style="margin-bottom:14px">    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">      <div style="font-size:15px;color:#2dd4bf;font-weight:bold">🌍 全球主要种植区天气实况</div>      <div style="font-size:11px;color:#475569">中国东北 · 美国 · 巴西 · 阿根廷 · 实时自动更新</div>    </div>    <!-- 总体天气判断 -->    <div style="padding:10px;background:#0a1628;border-radius:8px;border-left:3px solid #f59e0b;margin-bottom:10px">      <div style="font-size:13px;color:#f59e0b;font-weight:bold">⚠️ 部分产区存在天气风险，需持续关注</div>      <div style="font-size:11px;color:#475569;margin-top:2px">数据来源: Open-Meteo 实时天气API · 更新时间: 2026-06-24 13:13</div>    </div>    <!-- 每个产区的天气卡片 --><div style="background:#0a1628;border-radius:8px;border:1px solid #1e3a5f;border-left:3px solid #34d399;padding:10px;margin-bottom:8px">  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">    <div><span style="font-size:15px;font-weight:bold;color:#e0e0e0">🇨🇳 黑龙江</span><span style="font-size:11px;color:#64748b;margin-left:6px">哈尔滨</span></div>    <div style="text-align:right"><div style="font-size:20px">🌧</div><div style="font-size:11px;color:#94a3b8">小到中雨</div></div>  </div>  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">    <div>当前温度 26.4°C</div>    <div>日温区间 18.1~26.6°C</div>    <div>今日降水 2.0 mm</div>  </div>  <div>作物阶段: 幼苗生长</div>  <div>✅ 天气正常</div>  <div>06-25 ⛅ 18.3~29.6°C 0.0 mm / 06-26 ⛅ 19.0~29.2°C 0.0 mm</div></div><div style="background:#0a1628;border-radius:8px;border:1px solid #1e3a5f;border-left:3px solid #34d399;padding:10px;margin-bottom:8px">  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">    <div><span style="font-size:15px;font-weight:bold;color:#e0e0e0">🇨🇳 内蒙古</span><span style="font-size:11px;color:#64748b;margin-left:6px">呼和浩特</span></div>    <div style="text-align:right"><div style="font-size:20px">☀️</div><div style="font-size:11px;color:#94a3b8">晴空</div></div>  </div>  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">    <div>当前温度 27.6°C</div>    <div>日温区间 15.8~28.7°C</div>    <div>今日降水 0.0 mm</div>  </div>  <div>作物阶段: 幼苗生长</div>  <div>✅ 天气正常</div>  <div>06-25 ⛅ 14.1~29.5°C 0.0 mm / 06-26 ⛅ 18.8~30.8°C 0.0 mm</div></div><div style="background:#0a1628;border-radius:8px;border:1px solid #1e3a5f;border-left:3px solid #34d399;padding:10px;margin-bottom:8px">  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">    <div><span style="font-size:15px;font-weight:bold;color:#e0e0e0">🇺🇸 美国艾奥瓦</span><span style="font-size:11px;color:#64748b;margin-left:6px">得梅因</span></div>    <div style="text-align:right"><div style="font-size:20px">☀️</div><div style="font-size:11px;color:#94a3b8">晴空</div></div>  </div>  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">    <div>当前温度 19.6°C</div>    <div>日温区间 17.5~29.1°C</div>    <div>今日降水 0.2 mm</div>  </div>  <div>作物阶段: 幼苗生长</div>  <div>✅ 天气正常</div>  <div>06-25 ⛅ 15.8~26.6°C 0.0 mm / 06-26 ⛅ 14.3~23.6°C 0.2 mm</div></div><div style="background:#0a1628;border-radius:8px;border:1px solid #1e3a5f;border-left:3px solid #34d399;padding:10px;margin-bottom:8px">  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">    <div><span style="font-size:15px;font-weight:bold;color:#e0e0e0">🇧🇷 巴西马托格罗索</span><span style="font-size:11px;color:#64748b;margin-left:6px">库亚巴</span></div>    <div style="text-align:right"><div style="font-size:20px">⛅</div><div style="font-size:11px;color:#94a3b8">多云</div></div>  </div>  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">    <div>当前温度 16.8°C</div>    <div>日温区间 15.2~18.9°C</div>    <div>今日降水 5.6 mm</div>  </div>  <div>作物阶段: 休耕/越冬</div>  <div>✅ 天气正常</div>  <div>06-25 ⛅ 15.7~23.5°C 4.5 mm / 06-26 ⛅ 17.0~26.0°C 0.0 mm</div></div><div style="background:#0a1628;border-radius:8px;border:1px solid #1e3a5f;border-left:3px solid #3b82f6;padding:10px;margin-bottom:8px">  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">    <div><span style="font-size:15px;font-weight:bold;color:#e0e0e0">🇦🇷 阿根廷科尔多瓦</span><span style="font-size:11px;color:#64748b;margin-left:6px">科尔多瓦</span></div>    <div style="text-align:right"><div style="font-size:20px">☀️</div><div style="font-size:11px;color:#94a3b8">晴空</div></div>  </div>  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">    <div>当前温度 4.5°C</div>    <div>日温区间 2.4~14.0°C</div>    <div>今日降水 0.0 mm</div>  </div>  <div>作物阶段: 休耕/越冬</div>  <div>⚠️ 低温风险</div>  <div>06-25 ⛅ 4.0~15.6°C 0.1 mm / 06-26 ⛅ 5.5~20.3°C 0.0 mm</div></div>  </div>  <!-- 需求季节性要素 -->  <div style="font-size:15px;color:#fbbf24;font-weight:bold;margin-bottom:8px">📊 未来一季度需求季节性要素</div>  <div class="grid3"><div class="seasonal-card" style="border-left:3px solid #f59e0b">  <div class="seasonal-title" style="color:#f59e0b">6月 · 压榨淡季+饲料需求平稳</div>  <span class="impact-tag" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40">中性偏空</span>  <div style="font-size:12px;color:#94a3b8;line-height:1.5;margin-top:4px">压榨企业进入季节性检修期，开机率下降；饲料需求受养殖存栏支撑，整体平稳过渡。</div></div><div class="seasonal-card" style="border-left:3px solid #f59e0b">  <div class="seasonal-title" style="color:#f59e0b">7月 · 进口高峰+压榨回升</div>  <span class="impact-tag" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40">中性偏空</span>  <div style="font-size:12px;color:#94a3b8;line-height:1.5;margin-top:4px">进口大豆集中到港，港口库存攀升；压榨利润回升带动开机率，豆粕供应增加。</div></div><div class="seasonal-card" style="border-left:3px solid #34d399">  <div class="seasonal-title" style="color:#34d399">8月 · 中秋备货+新豆减量</div>  <span class="impact-tag" style="background:#34d39920;color:#34d399;border:1px solid #34d39940">偏多</span>  <div style="font-size:12px;color:#94a3b8;line-height:1.5;margin-top:4px">中秋国庆双节备货启动，油脂需求回暖；新季大豆产量预期逐步明朗，陈豆去库存加快。</div></div>  </div></div>
+
 <!-- ====== ④ 持仓结构面板 ====== -->
 <div class="card">
   <div class="card-title">📈 持仓结构分析 · 前20机构COT</div>
@@ -486,32 +531,267 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 </div>
 
 
-<!-- ====== ⑥ 市场要闻 ====== -->
+<!-- ====== ⑥ 市场动态 (扩充版) ====== -->
+<!-- ====== 市场动态面板 ====== -->
 <div class="card">
-  <div class="card-title">📰 豆一市场要闻</div>
-  <div style="font-size:11px;color:#94a3b8;margin-bottom:6px">情绪: <span class="tag tb">neutral</span> 来源: 新浪财经</div>
-  <div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 6月8日，芝加哥期货交易所（CBOT）大豆期价收盘下跌，其中基准期约收低0.40%，主要因为美国中西部天气条件有利</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 美国农业部作物进展报告显示，截至6月8日当周，美国大豆播种进度92%，一周前87%，高于去年同期的89%和五年均值88%</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 美国农业部出口检验报告显示，截至2026年6月4日当周，美国大豆出口检验量39.8万吨，同比减少28.8%，此前一周修正为50.5万吨</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 7万吨，同比减少20.3%，达到全年出口目标4164万吨的86.6%，其中对中国（大陆地区）累计装运大豆1148.6万吨，同比减少46.7%</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 据世界农业气象预报，6月8-23日，美国大豆主产区降雨量较常年偏高，大部地区降雨量1.9英寸，半数地区可达3.1英寸</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 6月进口大豆到港高峰，预估1150万吨</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 中储粮6月5日23700吨国产大豆购销双向竞价全部成交</div><div style="font-size:11px;padding:3px 0;border-bottom:1px solid #1a2d44;color:#e0e0e0">· 此前中储粮及省储陈豆拍卖曾连续零成交→降价后成交</div>
+  <div class="card-title">📰 市场动态 · 扩充版    <span class="ref-badge">新浪财经</span>
+  </div>
+<div style="margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="font-size:15px;color:#fbbf24;font-weight:bold">📰 豆一市场要闻（近7天，按时间倒序）</div>
+    <div><span style="color:#34d399">▲利好 1</span> / <span style="color:#f87171">▼利空 0</span></div>
+  </div>
+  <div style="background:#0a1628;border-radius:8px;overflow:hidden">
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">6月8日，芝加哥期货交易所（CBOT）大豆期价收盘下跌，其中基准期约收低0.40%，主要因为美国中西部天气条件有利</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-09</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 6月8日，芝加哥期货交易所（CBOT）大豆期价收盘下跌，其中基准期约收低0.40%，主要因为美国中西部天气条件有利</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">6月8日，芝加哥期货交易所（CBOT）大豆期价收盘下跌，其中基准期约收低0.40%，主要因为美国中西部天气条件有利</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 新浪财经</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">美国农业部作物进展报告显示，截至6月8日当周，美国大豆播种进度92%，一周前87%，高于去年同期的89%和五年均值88%</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-09</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 美国农业部作物进展报告显示，截至6月8日当周，美国大豆播种进度92%，一周前87%，高于去年同期的89%和五年均值88%</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">美国农业部作物进展报告显示，截至6月8日当周，美国大豆播种进度92%，一周前87%，高于去年同期的89%和五年均值88%</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 新浪财经</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">美国农业部出口检验报告显示，截至2026年6月4日当周，美国大豆出口检验量39.8万吨，同比减少28.8%，此前一周修正为50.5万吨</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-09</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 美国农业部出口检验报告显示，截至2026年6月4日当周，美国大豆出口检验量39.8万吨，同比减少28.8%，此前一周修正为50.5万吨</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">美国农业部出口检验报告显示，截至2026年6月4日当周，美国大豆出口检验量39.8万吨，同比减少28.8%，此前一周修正为50.5万吨</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 新浪财经</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">7万吨，同比减少20.3%，达到全年出口目标4164万吨的86.6%，其中对中国（大陆地区）累计装运大豆1148.6万吨，同比减少46.7%</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-09</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 7万吨，同比减少20.3%，达到全年出口目标4164万吨的86.6%，其中对中国（大陆地区）累计装运大豆1148.6万吨，同比减少46.7%</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">7万吨，同比减少20.3%，达到全年出口目标4164万吨的86.6%，其中对中国（大陆地区）累计装运大豆1148.6万吨，同比减少46.7%</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 新浪财经</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">据世界农业气象预报，6月8-23日，美国大豆主产区降雨量较常年偏高，大部地区降雨量1.9英寸，半数地区可达3.1英寸</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-09</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 据世界农业气象预报，6月8-23日，美国大豆主产区降雨量较常年偏高，大部地区降雨量1.9英寸，半数地区可达3.1英寸</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">据世界农业气象预报，6月8-23日，美国大豆主产区降雨量较常年偏高，大部地区降雨量1.9英寸，半数地区可达3.1英寸</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 新浪财经</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">6月进口大豆到港高峰，预估1150万吨</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-08</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 6月进口大豆到港量预估1150万吨，7月预估1000万吨，港口库存885万吨偏宽松。</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">6月进口大豆到港量预估1150万吨，7月预估1000万吨，港口库存885万吨偏宽松。</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 中国粮油商务网</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">中储粮6月5日23700吨国产大豆购销双向竞价全部成交</span>
+    <div>
+      <span style="font-size:11px;background:#064e3b40;color:#34d399;border:1px solid #065f4680;border-radius:4px;padding:1px 6px;font-weight:bold">🟢 利好</span>
+      <span style="font-size:11px;color:#64748b">2026-06-05</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 购销双向拍卖23700吨全部成交，采购价4650元/吨，销售价4500元/吨。</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">购销双向拍卖23700吨全部成交，采购价4650元/吨，销售价4500元/吨。</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 中储粮公告</div>
+</div>
+<div class="news-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#e0e0e0">此前中储粮及省储陈豆拍卖曾连续零成交，降价后成交</span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b">2026-06-03</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#60a5fa;padding:4px 8px;background:#0d1f35;border-left:2px solid #60a5fa;border-radius:2px">💡 中储粮陈豆拍卖此前连续零成交，降价后成交率回升。</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">中储粮陈豆拍卖此前连续零成交，降价后成交率回升。</div>
+  </div>
+  <div style="font-size:11px;color:#475569;margin-top:4px">来源: 国家粮食交易中心</div>
+</div>
+  </div>
   <div style="margin-top:6px">
-    <span class="tag tb">进口到港</span><span class="tag tb">政策收储</span><span class="tag tb">国产供应</span><span class="tag tb">其他</span>
+    <span class="tag tb">情绪: bearish</span>
+<span class="tag tb">国产供应</span><span class="tag tb">政策收储</span><span class="tag tb">其他</span><span class="tag tb">进口到港</span>
   </div>
 </div>
+<div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="font-size:15px;color:#60a5fa;font-weight:bold">🏛 市场观点（近1月期货公司研究所核心观点，含1-3月预判）</div>
+    <div><span style="color:#34d399">▲利好 0</span> / <span style="color:#f87171">▼利空 0</span></div>
+  </div>
+  <div style="background:#0a1628;border-radius:8px;overflow:hidden">
+<div class="view-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 </span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b"></span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#e0e0e0;font-weight:500">农产品 | 豆一中期震荡偏强，关注政策支撑</div>
+  <div style="font-size:12px;color:#a78bfa;padding:4px 8px;background:#1a0d35;border-left:2px solid #a78bfa;border-radius:2px">📌 结论: 1-3月预计震荡偏强，下方空间有限</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">国产大豆供应偏紧，中储粮拍卖底价支撑明显，短期震荡偏强，关注4500-4800区间。</div>
+  </div>
+</div>
+<div class="view-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 </span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b"></span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#e0e0e0;font-weight:500">农产品 | 豆粕需求回暖，利好国产大豆价格</div>
+  <div style="font-size:12px;color:#a78bfa;padding:4px 8px;background:#1a0d35;border-left:2px solid #a78bfa;border-radius:2px">📌 结论: 3季度有望突破4800元/吨</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">生猪存栏回升带动豆粕需求回暖，压榨利润改善，国产大豆价格获支撑。</div>
+  </div>
+</div>
+<div class="view-item" style="padding:10px 12px;border-bottom:1px solid #1a2d44">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <span style="font-weight:bold;color:#60a5fa">🏛 </span>
+    <div>
+      <span style="font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #475569;border-radius:4px;padding:1px 6px;font-weight:bold">➡️ 中性</span>
+      <span style="font-size:11px;color:#64748b"></span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#e0e0e0;font-weight:500">农产品 | 进口大豆冲击有限，国产豆溢价持续</div>
+  <div style="font-size:12px;color:#a78bfa;padding:4px 8px;background:#1a0d35;border-left:2px solid #a78bfa;border-radius:2px">📌 结论: 下半年国产豆-进口豆价差或扩大</div>
+  <div>
+    <div style="font-size:12px;color:#94a3b8;line-height:1.6">进口大豆到港虽多但主要用于压榨，对食品级国产大豆冲击有限，国产溢价持续。</div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
 
-<!-- ====== ⑦ 技术指标总览 ====== -->
+<!-- ====== ⑦ 技术面分析 (K线SVG+七维研判) ====== -->
 <div class="card">
-  <div class="card-title">📐 技术指标总览</div>
-  <div class="grid4">
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4715</div><div style="font-size:9px;color:#64748b">MA5</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4766</div><div style="font-size:9px;color:#64748b">MA20</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">48.8</div><div style="font-size:9px;color:#64748b">RSI(14)</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">15</div><div style="font-size:9px;color:#64748b">ADX</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4872</div><div style="font-size:9px;color:#64748b">布林上轨</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4766</div><div style="font-size:9px;color:#64748b">布林中轨</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">4660</div><div style="font-size:9px;color:#64748b">布林下轨</div></div>
-    <div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px"><div style="font-size:16px">66.1</div><div style="font-size:9px;color:#64748b">ATR(14)</div></div>
-  </div>
-  <div style="margin-top:8px;font-size:10px;color:#64748b">
-    MACD: DIF=-26.0 | DEA=-21.7 | 量价配合 | +DI=20 | -DI=17
-  </div>
+<div class="card-title">📐 技术指标总览</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px"><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #fbbf24">
+<div style="font-size:16px;color:#fbbf24">4715</div>
+<div style="font-size:10px;color:#64748b">MA5</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #f97316">
+<div style="font-size:16px;color:#f97316">4738</div>
+<div style="font-size:10px;color:#64748b">MA10</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #60a5fa">
+<div style="font-size:16px;color:#60a5fa">4766</div>
+<div style="font-size:10px;color:#64748b">MA20</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #a78bfa">
+<div style="font-size:16px;color:#a78bfa">4796</div>
+<div style="font-size:10px;color:#64748b">MA60</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #ef4444">
+<div style="font-size:16px;color:#ef4444">死叉</div>
+<div style="font-size:10px;color:#64748b">MACD状态</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #8b5cf6">
+<div style="font-size:16px;color:#8b5cf6">4872</div>
+<div style="font-size:10px;color:#64748b">布林上轨</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #8b5cf6">
+<div style="font-size:16px;color:#8b5cf6">4766</div>
+<div style="font-size:10px;color:#64748b">布林中轨</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #8b5cf6">
+<div style="font-size:16px;color:#8b5cf6">4660</div>
+<div style="font-size:10px;color:#64748b">布林下轨</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #e0e0e0">
+<div style="font-size:16px;color:#e0e0e0">48.8</div>
+<div style="font-size:10px;color:#64748b">RSI(14)</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #e0e0e0">
+<div style="font-size:16px;color:#e0e0e0">15</div>
+<div style="font-size:10px;color:#64748b">ADX</div>
+</div></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px"><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #fbbf24">
+<div style="font-size:16px;color:#fbbf24">-26.0</div>
+<div style="font-size:10px;color:#64748b">DIF</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #60a5fa">
+<div style="font-size:16px;color:#60a5fa">-21.7</div>
+<div style="font-size:10px;color:#64748b">DEA</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #e0e0e0">
+<div style="font-size:16px;color:#e0e0e0">20 / 17</div>
+<div style="font-size:10px;color:#64748b">+DI / -DI</div>
+</div><div style="text-align:center;padding:6px;background:#0a1628;border-radius:6px;border-bottom:2px solid #e0e0e0">
+<div style="font-size:16px;color:#e0e0e0">66.1 / 量价配合</div>
+<div style="font-size:10px;color:#64748b">ATR / 量价</div>
+</div></div><div style="margin-top:8px;font-size:10px;color:#64748b">
+MACD: DIF=-26.0 | DEA=-21.7 | 量价配合 | +DI=20 | -DI=17 | 布林带宽=0.044
+</div><div class="card" style="margin-top:14px">
+<div class="card-title">📈 持仓结构分析 · 前20机构COT</div>
+<div class="grid2">
+<div>
+<div class="info-row"><span class="info-label">数据日期</span><span class="info-value">2026-06-03</span></div>
+<div class="info-row"><span class="info-label">多单(前20)</span><span class="info-value">35.14 万手</span></div>
+<div class="info-row"><span class="info-label">空单(前20)</span><span class="info-value">40.50 万手</span></div>
+<div class="info-row"><span class="info-label">多空比</span><span class="info-value" style="color:#ef4444">0.87</span></div>
+<div class="info-row"><span class="info-label">净持仓</span><span class="info-value" style="color:#ef4444">-5.36 万手</span></div>
+<div class="info-row"><span class="info-label">净持仓变化</span><span class="info-value">-0.98 万手</span></div>
+</div>
+<div><div style="font-size:11px;color:#94a3b8;margin-bottom:4px">净多头TOP3:</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 东证期货: +9,886手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 浙商期货: +8,237手</div><div style="font-size:11px;margin:3px 0;color:#34d399">▸ 国泰君安: +7,737手</div><div style="font-size:11px;color:#94a3b8;margin-bottom:4px;margin-top:8px">净空头TOP3:</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中信期货: -9,843手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 首创期货: -9,082手</div><div style="font-size:11px;margin:3px 0;color:#f87171">▸ 中泰期货: -8,907手</div></div></div><div style="font-size:12px;color:#ef4444;margin-top:4px">· 前20多空比0.87，机构偏空</div></div><div class="card" style="margin-top:14px">
+<div class="card-title">📊 K线与技术图形 <span style="font-size:11px;color:#64748b;font-weight:normal">(近60日 · 含MA/布林带/MACD · 数据源自Web实时获取)</span></div>
+<svg viewBox="0 0 1000 506" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:1000px">
+<rect width="1000" height="506" fill="#0d1b2a" rx="10"/>
+<text x="500" y="250" text-anchor="middle" font-size="20" fill="#64748b" font-family="Microsoft YaHei,PingFang SC,sans-serif">暂无K线数据</text>
+</svg>
+<div style="margin-top:6px;text-align:right">
+<a href="https://quote.eastmoney.com/qihuo/a2609.html" target="_blank" style="font-size:10px;color:#60a5fa;text-decoration:none">🔗 查看东方财富实时K线 →</a>
+<span style="margin-left:12px"><a href="https://finance.sina.com.cn/futures/quotes/A2609.shtml" target="_blank" style="font-size:10px;color:#60a5fa;text-decoration:none">🔗 新浪期货行情 →</a></span>
+</div>
+</div><div class="card" style="margin-top:14px">
+<div class="card-title">📝 技术面综合研判 · 七维分析</div>
+<div style="font-size:13px;color:#94a3b8;line-height:1.7">
+<b>均线系统</b>：均线空头排列（MA5<MA10<MA20<MA60），价格运行于均线系统之下，中期趋势偏弱。<br/><br/>
+<b>MACD</b>：MACD死叉状态，DIF(-26.0)<DEA(-21.7)且均在零轴下方，空头动能主导。绿柱呈放大趋势。<br/><br/>
+<b>RSI(14)</b>=48.8，RSI(14)=48.8，中性偏弱区域（30-50），空头略占上风。<br/><br/>
+<b>布林带</b>：价格运行于布林带下半区（位置34.4%），偏弱运行，中轨(4766)构成压力。<br/><br/>
+<b>趋势强度</b>：ADX=15<22，市场处于无明显趋势的震荡/盘整格局。+DI(20)与-DI(17)差值2<10，方向性信号弱。<br/><br/>
+<b>量价关系</b>：量价配合良好，成交量与价格走势方向一致，趋势有效性较高。<br/><br/>
+<b style="color:#f59e0b">综合研判</b>：技术面中性偏空，部分指标偏空但非共振，方向有待进一步确认。 上方压力位关注4872（布林上轨/MA60），下方支撑关注4660（布林下轨/MA5）和4796（MA60/中轨）。
+</div>
 </div>
 
 <!-- ====== ⑧ 量化决策流程图 (v6.1: 末尾+信号集成) ====== -->
@@ -558,7 +838,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <!-- 标题栏 -->
 <rect x="0" y="0" width="900" height="38" rx="14" fill="#132232"/>
 <rect x="0" y="20" width="900" height="18" fill="#132232"/>
-<text x="450" y="25" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">豆一量化决策流程图 v6.1 · AM · 2026-06-24 12:59:12</text>
+<text x="450" y="25" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">豆一量化决策流程图 v6.1 · AM · 2026-06-24 13:13:33</text>
 
 <!-- ═══════ STEP 1: 市场状态判定 ═══════ -->
 <rect x="20" y="50" width="860" height="92" rx="10" fill="#0a1628" stroke="#1e3a5f" stroke-width="1.2"/>
@@ -690,7 +970,7 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <rect x="516" y="536" width="140" height="88" rx="10" fill="#ef444412" stroke="#ef4444" stroke-width="1.5"/>
 <text x="586" y="562" text-anchor="middle" fill="#94a3b8" font-size="10">风险等级</text>
 <text x="586" y="586" text-anchor="middle" fill="#ef4444" font-size="20" font-weight="bold">HIGH</text>
-<text x="586" y="608" text-anchor="middle" fill="#64748b" font-size="8">2个风险项</text>
+<text x="586" y="608" text-anchor="middle" fill="#64748b" font-size="8">3个风险项</text>
 
 <!-- 止损止盈框 -->
 <rect x="666" y="536" width="200" height="88" rx="10" fill="#0a1628" stroke="#334155" stroke-width="1.2"/>
@@ -705,14 +985,14 @@ body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;b
 <text x="450" y="684" text-anchor="middle" fill="#94a3b8" font-size="9">市场判定: 技术30%+(基本+政策+季节)70% | 四因子: 宏观35% > 政策30% > 季节20% > 技术15%</text>
 <text x="450" y="698" text-anchor="middle" fill="#64748b" font-size="8">参考模型: 方正中期 · 国泰期货 · 2026年度展望 · 同花顺COT · 中国粮油商务网</text>
 
-<text x="870" y="750" text-anchor="end" fill="#334155" font-size="8">v6.1 · 2026-06-24 12:59:12</text>
+<text x="870" y="750" text-anchor="end" fill="#334155" font-size="8">v6.1 · 2026-06-24 13:13:33</text>
 </svg>
   </div>
 </div>
 
 <!-- ====== 底部 ====== -->
 <div style="text-align:center;padding:20px;color:#334155;font-size:10px">
-  豆一量化模型 v6.1 · 构建于成熟研究框架之上 · 可分享部署版 · 2026-06-24 12:59:12<br>
+  豆一量化模型 v6.1 · 构建于成熟研究框架之上 · 可分享部署版 · 2026-06-24 13:13:33<br>
   数据源: 生意社 + 同花顺 + 饲料信息网 + 内蒙古粮食局 + 国家粮食交易中心 + 农业农村部<br>
   免责声明: 本模型仅供研究参考，不构成投资建议。期货交易风险自负。
 </div>
